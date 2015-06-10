@@ -1,0 +1,15 @@
+alarm:
+  image: debian:jessie
+  environment:
+    ENV: "testing"
+  links:
+    - mysql
+
+mysql:
+  image: mysql
+  volumes:
+     - mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: "docker"
+  expose:
+    - "3306"
