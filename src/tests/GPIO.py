@@ -15,6 +15,8 @@ def input(value):
 
     array = [value]
 
+    return array[0]
+
 def setmode():
 
     print()
@@ -29,5 +31,6 @@ def OUT():
 
 def main():
     print('Runnable')
+    print(input(5))
 
 if __name__ == "__main__":main()
