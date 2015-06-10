@@ -13,7 +13,7 @@ piarm:
     ENV: "testing"
   volumes:
     - src:/data
-  working_dir: /data
+  working_dir: /data/piarm
   links:
     - mysql
 

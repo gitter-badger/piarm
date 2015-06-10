@@ -2,8 +2,9 @@
 
 from helpers.helpers import env
 
+
 def main():
+    print(env('ENVIRONMENT', 'development'))
 
-    print(env('ENVIRONMENT'))
 
-if __name__ == '__main__':main()
+if __name__ == '__main__': main()
