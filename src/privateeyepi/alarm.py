@@ -67,7 +67,7 @@ def BuildGPIOList():
                 circuit = GPIO.input(GPIOList[i])
                 AlarmActioned.append(circuit)
 
-def CheckArmDisarm():    
+def CheckArmDisarm():
     if globals.ArmDisarm==True:
         globals.ArmKeyPressed=GPIO.input(globals.ArmPin)
         globals.DisarmKeyPressed=GPIO.input(globals.DisarmPin)
