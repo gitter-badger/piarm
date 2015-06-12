@@ -19,3 +19,8 @@ gulp.task('default', function() {
         .pipe(source('piarm.js'))
         .pipe(gulp.dest('./src/build'));
 });
+
+gulp.task('watch', function() {
+
+    console.log('hello');
+});
