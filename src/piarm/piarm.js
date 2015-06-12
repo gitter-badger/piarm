@@ -5,21 +5,14 @@
  */
 
 //import helper from './helpers/helpers';
-//import GPIO from './tests/GPIO.js';
+import GPIO from './tests/GPIO.js';
+import { Object, hello } from './Object.js';
 
-//GPIO.read(1, function(err, res) {
-//
-//    return console.log(res);
-//});
+GPIO.read(1, function(err, res) {
 
-//class Object {
-//
-//    render() {
-//
-//        return console.log('hello');
-//    }
-//}
+    return console.log(res);
+});
 
+var object = new Object();
 
-//Object.render();
-console.log('hello');
+object.hello();
