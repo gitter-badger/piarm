@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM node:onbuild
 MAINTAINER Julien Vincent <julienlucvincent@gmail.com>
 
 RUN mkdir -p /data

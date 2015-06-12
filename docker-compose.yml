@@ -4,6 +4,7 @@ mysql:
      - mysql:/var/lib/mysql
   environment:
     MYSQL_ROOT_PASSWORD: "docker"
+    MYSQL_DATABASE: "piarm"
   expose:
     - "3306"
 

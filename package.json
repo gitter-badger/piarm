@@ -1,0 +1,26 @@
+{
+  "name": "piarm",
+  "version": "1.0.0",
+  "description": "alarm system",
+  "main": "src",
+  "dependencies": {},
+  "devDependencies": {
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:daniel_robinson/smart-raspberry-pi-alarm-system.git"
+  },
+  "keywords": [
+    "alarm"
+  ],
+  "author": "Julien Vincent",
+  "license": "MIT"
+}
