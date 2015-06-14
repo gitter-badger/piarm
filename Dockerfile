@@ -1,22 +1,22 @@
 FROM debian:jessie
 MAINTAINER Julien Vincent <julienlucvincent@gmail.com>
 
-    # Create Data folder
+# Create Data folder
 
 RUN mkdir -p /data
 
-    # Add new repo containing latest nodejs build
+# Add new repo containing latest nodejs build
 
 RUN apt-get update -y && \
     apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup | bash - && \
     apt-get update -y
 
-    # Install Node.js
+# Install Node.js
 
 RUN apt-get install -y nodejs
 
-    # Remove curl and clean
+# Remove curl and clean
 
 RUN apt-get remove --purge -y curl && \
     apt-get clean && \
