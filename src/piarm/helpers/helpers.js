@@ -4,7 +4,7 @@
  * Collection of helper functions to be used within PiArm
  */
 
-import fs from 'fs';
+var fs = require('fs');
 
 function env(name, def = null) {
 
@@ -13,6 +13,9 @@ function env(name, def = null) {
     if (def) {
         value = def;
     }
+    fs.readFile(".env", "utf8", function(error, data) {
+        console.log(data);
+    });
 
     return value;
 }

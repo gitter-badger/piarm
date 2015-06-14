@@ -5,31 +5,46 @@
  */
 
 var gulp = require("gulp");
-var babelify = require('babelify');
-var browserify = require('browserify');
-var uglify = require('gulp-uglify');
-var stream = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
+var del = require('del');
+var fs = require('fs');
+var tag = require('yargs').argv;
+var _if = require('gulp-if');
+var bundle = require('gulp-es6-module-transpiler');
+var transpile = require('gulp-es6-transpiler');
+var minify = require('gulp-uglify');
 
 var paths = {
-    js: './src/piarm/**/*.js'
+    js: './src/piarm/**/*.js',
+    out: './src/build/src/*/**'
 };
 
+var files = [
+    './src/build/src/piarm/piarm.js',
+    './src/build/src/piarm/piarm.js.map',
+    './src/piarm/.env'
+];
+
 gulp.task('build', function () {
-    browserify({
-        entries: './src/piarm/piarm.js',
-        debug: true
-    })
-        .transform(babelify)
-        .bundle()
-        .pipe(stream('piarm.js'))
-        .pipe(buffer())
-        .pipe(uglify())
+    gulp.src('./src/piarm/piarm.js')
+        .pipe(bundle({
+            formatter: 'bundle',
+            basePath: './'
+        }))
+        .pipe(transpile())
+        .pipe(_if(tag.min, minify()))
         .pipe(gulp.dest('./src/build'));
 });
 
-gulp.task('watch', function () {
-    gulp.watch(paths.js, ['build']);
+gulp.task('copy', function () {
+    files.forEach(function (file) {
+        gulp.src(file)
+            .pipe(gulp.dest('./src/build'))
+    });
+    del(['./src/build/src']);
 });
 
-gulp.task('default', ['build']);
+gulp.task('watch', function () {
+    gulp.watch(paths.js, ['build', 'copy']);
+});
+
+gulp.task('default', ['build', 'copy']);
