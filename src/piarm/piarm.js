@@ -4,15 +4,10 @@
  * MAIN file.
  */
 
-//import helper from './helpers/helpers';
-import GPIO from './tests/GPIO.js';
-import { Object, hello } from './Object.js';
+//import { read } from './helpers/helpers';
+import GPIO from './tests/GPIO';
 
 GPIO.read(1, function(err, res) {
 
-    return console.log(res);
+    console.log(err + " " + res)
 });
-
-var object = new Object();
-
-object.hello();

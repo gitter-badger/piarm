@@ -4,13 +4,16 @@
  * RPi.GPIO imitator
  */
 
-import helper from '../helpers/helpers';
+import { env } from '../helpers/helpers';
 
-class GPIO {
+var GPIO = {
 
-    read(channel, callback) {
+    read: function(channel, callback) {
 
-        callback(0, 1);
+        let res = env("ENVIRONMENT", 'Default Name');
+
+        callback(0, res);
     }
-}
-export default GPIO = new GPIO;
+};
+
+export default GPIO;

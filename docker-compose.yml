@@ -13,13 +13,7 @@ piarm:
   environment:
     ENV: "testing"
   volumes:
-    - src:/data
-  working_dir: /data/piarm
+    - ./src/build:/data
+  working_dir: /data
   links:
     - mysql
-
-
-# For running docker on Raspberry Pi B2
-
-#rpi_docker:
-#  image:
