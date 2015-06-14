@@ -5,8 +5,6 @@
  */
 
 var gulp = require("gulp");
-var del = require('del');
-var fs = require('fs');
 var tag = require('yargs').argv;
 var _if = require('gulp-if');
 var bundle = require('gulp-es6-module-transpiler');
@@ -19,8 +17,6 @@ var paths = {
 };
 
 var files = [
-    './src/build/src/piarm/piarm.js',
-    './src/build/src/piarm/piarm.js.map',
     './src/piarm/.env'
 ];
 
@@ -28,7 +24,7 @@ gulp.task('build', function () {
     gulp.src('./src/piarm/piarm.js')
         .pipe(bundle({
             formatter: 'bundle',
-            basePath: './'
+            basePath: './src/piarm/'
         }))
         .pipe(transpile())
         .pipe(_if(tag.min, minify()))
@@ -40,7 +36,6 @@ gulp.task('copy', function () {
         gulp.src(file)
             .pipe(gulp.dest('./src/build'))
     });
-    del(['./src/build/src']);
 });
 
 gulp.task('watch', function () {

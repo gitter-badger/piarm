@@ -1,18 +1,38 @@
 /**
  * Created by Julien Vincent.
  *
- * RPi.GPIO imitator
+ * RPi.GPIO imitator for testing purposes
  */
 
 import { env } from '../helpers/helpers';
 
 var GPIO = {
 
-    read: function(channel, callback) {
+    setup: function () {
 
-        let res = env("ENVIRONMENT", 'Default Name');
+    },
 
-        callback(0, res);
+    read: function (channel, callback) {
+
+        env("GPIO_" + channel, function (res) {
+            return callback(null, res);
+        });
+    },
+
+    write: function () {
+
+    },
+
+    setMode: function () {
+
+    },
+
+    setPollFrequency: function () {
+
+    },
+
+    destroy: function () {
+
     }
 };
 

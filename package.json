@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "alarm system",
   "main": "src",
-  "dependencies": {},
+  "dependencies": {
+    "rpi-gpio": "^0.5.2"
+  },
   "devDependencies": {
-    "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-es6-module-transpiler": "^0.2.1",
     "gulp-es6-transpiler": "^1.0.1",
