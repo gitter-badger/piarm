@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "alarm system",
   "main": "src",
-  "dependencies": {
-    "rpi-gpio": "^0.5.2"
-  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-es6-module-transpiler": "^0.2.1",
     "gulp-es6-transpiler": "^1.0.1",
     "gulp-if": "^1.2.5",
+    "gulp-traceur": "^0.17.1",
     "gulp-uglify": "^1.2.0",
     "yargs": "^3.10.0"
   },
@@ -19,11 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:daniel_robinson/smart-raspberry-pi-alarm-system.git"
+    "url": "git+ssh://git@bitbucket.org/daniel_robinson/smart-raspberry-pi-alarm-system.git"
   },
   "keywords": [
     "alarm"
   ],
   "author": "Julien Vincent",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/daniel_robinson/smart-raspberry-pi-alarm-system#readme"
 }

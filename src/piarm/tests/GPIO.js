@@ -8,6 +8,10 @@ import { env } from '../helpers/helpers';
 
 var GPIO = {
 
+    state: {
+
+    },
+
     setup: function () {
 
     },

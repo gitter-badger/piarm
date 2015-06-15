@@ -1,19 +1,19 @@
-mysql:
-  image: mysql
-  volumes:
-     - mysql:/var/lib/mysql
-  environment:
-    MYSQL_ROOT_PASSWORD: "docker"
-    MYSQL_DATABASE: "piarm"
-  expose:
-    - "3306"
+#mysql:
+#  image: mysql
+#  volumes:
+#     - mysql:/var/lib/mysql
+#  environment:
+#    MYSQL_ROOT_PASSWORD: "docker"
+#    MYSQL_DATABASE: "piarm"
+#  expose:
+#    - "3306"
 
 piarm:
   build: .
   environment:
     ENV: "testing"
   volumes:
-    - ./src/build:/data
-  working_dir: /data
-  links:
-    - mysql
+    - ./:/data
+  working_dir: /data/src/build
+#  links:
+#    - mysql

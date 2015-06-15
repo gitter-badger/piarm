@@ -4,9 +4,6 @@
  * MAIN file.
  */
 
-import GPIO from './tests/GPIO';
+import Listener from './controllers/Listener'
 
-GPIO.read(1, function(err, res) {
-
-    console.log(res);
-});
+let listen = new Listener();
