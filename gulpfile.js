@@ -1,25 +1,22 @@
-/**
- * ES6 Transpiler script for gulp
- *
- * @author Julien Vincent
- */
-
 /*
  |--------------------------------------------------------------------------
- | Commands:
+ | Gulp compile script
  |
- | - gulp
- | - gulp watch
+ |  Commands:
  |
- | Tags:
- | - --min
+ | - gulp (Run the default build function)
+ | - gulp watch (Watch files for changes and build on a change)
+ |
+ | Flags:
+ |  --min (bundle the es5 build into a single, minified out file)
+ |  --debug (Build and output pretty, source mapped errors to console)
  |--------------------------------------------------------------------------
  */
 
 
 /*| ------------ INCLUDES ------------ |*/
 var gulp = require("gulp");
-var tag = require('yargs').argv;
+var flag = require('yargs').argv;
 var _if = require('gulp-if');
 var transpile = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
@@ -44,19 +41,19 @@ var files = [
 gulp.task('build', function () {
     gulp.src(paths.js)
         .pipe(sourcemaps.init())
-        .pipe(_if(tag.debug, transpile()))
+        .pipe(_if(flag.debug, transpile()))
         .pipe(transpile()).on('error', console.error.bind(console))
         .pipe(sourcemaps.write(paths.sourcemaps))
         .pipe(gulp.dest(paths.out));
 
     // Not functioning as expected... yet
     gulp.src(paths.tranpiled)
-        .pipe(_if(tag.min, bundle({
+        .pipe(_if(flag.min, bundle({
             formatter: 'bundle',
             basePath: paths.out
         })))
-        .pipe(_if(tag.min, minify()))
-        .pipe(_if(tag.min, gulp.dest(paths.min)));
+        .pipe(_if(flag.min, minify()))
+        .pipe(_if(flag.min, gulp.dest(paths.min)));
 });
 
 /*| ------------ COPY ------------ |*/
