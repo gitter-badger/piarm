@@ -1,16 +1,14 @@
-/**
- * Created by Julien Vincent.
- *
- * Listens to Pin changes.
- */
-
 /*
  |--------------------------------------------------------------------------
- | Node module imports
+ | Listens to events and responds to them accordingly
+ |
+ | Uses a test GPIO class or a Raspberry specific class
+ | depending on environment
  |--------------------------------------------------------------------------
  */
-var gpio = require('rpi-gpio');
-var io = require('socket.io');
+
+import gpio from 'rpi-gpio'
+import io from 'socket.io'
 
 import testGPIO from '../tests/GPIO'
 

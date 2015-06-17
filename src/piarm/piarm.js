@@ -5,5 +5,3 @@
  */
 
 import Listener from './controllers/Listener'
-
-let listen = new Listener();

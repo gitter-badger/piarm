@@ -1,15 +1,17 @@
-/**
- * Created by Julien Vincent.
- *
- * Collection of helper functions to be used within PiArm
+/*
+ |--------------------------------------------------------------------------
+ | A collection of helper functions to be used within the Piarm module
+ |--------------------------------------------------------------------------
  */
 
-//var fs = require('fs');
 /**
-* Helper function to get config values
-*
-* */
+ *
+ * Helper function to get config values
+ *
+ **/
 function env(name, callback, def = null) {
+
+    import fs from 'fs'
 
     var value = null;
     if (def) {
