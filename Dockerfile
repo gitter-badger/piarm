@@ -24,5 +24,6 @@ RUN apt-get remove --purge -y curl && \
 
 # Default command to run and allow the data folder to be volumed
 
-ENTRYPOINT ["node", "piarm.js"]
+ENTRYPOINT ["node"]
 VOLUME ["/data"]
+EXPOSE 80 3000-9000

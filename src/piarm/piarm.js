@@ -4,4 +4,3 @@
  * MAIN file.
  */
 
-import Listener from './controllers/Listener'

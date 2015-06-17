@@ -16,13 +16,14 @@
 
 /*| ------------ INCLUDES ------------ |*/
 var gulp = require("gulp");
+var watch = require('gulp-watch');
+var plumber = require('gulp-plumber');
 var flag = require('yargs').argv;
 var _if = require('gulp-if');
 var transpile = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 var bundle = require('gulp-es6-module-transpiler');
 var minify = require('gulp-uglify');
-var gutil = require('gulp-util');
 
 /*| ------------ SOURCE INPUT AND OUTPUT ------------ |*/
 var paths = {
@@ -40,9 +41,10 @@ var files = [
 /*| ------------ BUILDER ------------ |*/
 gulp.task('build', function () {
     gulp.src(paths.js)
+        .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(_if(flag.debug, transpile()))
-        .pipe(transpile()).on('error', console.error.bind(console))
+        .pipe(transpile())
         .pipe(sourcemaps.write(paths.sourcemaps))
         .pipe(gulp.dest(paths.out));
 
@@ -66,6 +68,11 @@ gulp.task('copy', function () {
 
 /*| ------------ RUNNABLE ------------ |*/
 gulp.task('watch', function () {
-    gulp.watch(paths.js, ['build', 'copy']);
+    gulp.start('build');
+    gulp.start('copy');
+    watch(paths.js, function () {
+        gulp.start('build');
+        gulp.start('copy')
+    })
 });
 gulp.task('default', ['build', 'copy']);
