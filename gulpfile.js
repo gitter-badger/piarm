@@ -25,6 +25,7 @@ var transpile = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 var bundle = require('gulp-es6-module-transpiler');
 var minify = require('gulp-uglify');
+var gutil = require('gulp-util');
 
 /*| ------------ SOURCE INPUT AND OUTPUT ------------ |*/
 var paths = {
@@ -43,7 +44,8 @@ var files = [
 gulp.task('build', function () {
     gulp.src(paths.js)
         .pipe(sourcemaps.init())
-        .pipe(transpile())
+        .pipe(_if(tag.debug, transpile()))
+        .pipe(transpile()).on('error', console.error.bind(console))
         .pipe(sourcemaps.write(paths.sourcemaps))
         .pipe(gulp.dest(paths.out));
 

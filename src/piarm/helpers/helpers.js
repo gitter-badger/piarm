@@ -4,14 +4,14 @@
  |--------------------------------------------------------------------------
  */
 
+import fs from 'fs'
+
 /**
  *
  * Helper function to get config values
  *
  **/
 function env(name, callback, def = null) {
-
-    import fs from 'fs'
 
     var value = null;
     if (def) {
