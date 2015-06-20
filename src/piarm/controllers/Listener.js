@@ -21,6 +21,6 @@ export default class Listener {
 
     channelUpdated(channel, value) {
 
-        console.log(channel);
+        console.log(channel + " " + value);
     }
 }

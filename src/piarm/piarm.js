@@ -17,10 +17,16 @@ class Test extends Listener {
 
     setup() {
 
-        gpio.setup(7, 'DIR_IN', function (err) {
+        gpio.setup(3, 'DIR_IN', function (err) {
             console.log('An error occured! ' + err)
         })
+    }
+
+    read() {
+
+        gpio.read()
     }
 }
 
 let x = new Test();
+x.setup();
