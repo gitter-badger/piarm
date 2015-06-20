@@ -13,7 +13,6 @@ export default class Listener {
 
     constructor() {
 
-        gpio.on('change', this.channelUpdated);
         this.setup();
     }
 
@@ -36,5 +35,10 @@ export default class Listener {
 
             console.log(err + " " + value);
         })
+    }
+
+    listen() {
+
+        gpio.on('change', this.channelUpdated);
     }
 }
