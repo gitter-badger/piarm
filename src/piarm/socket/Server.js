@@ -22,6 +22,7 @@ io.on('connection', function (socket) {
 
         ping();
     });
+
 });
 
 function ping() {

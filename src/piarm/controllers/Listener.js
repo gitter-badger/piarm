@@ -7,21 +7,33 @@
  |--------------------------------------------------------------------------
  */
 
-import Gpio from 'rpi-gpio'
-import io from 'socket.io'
-
-var gpio = new Gpio();
-import testGPIO from '../tests/GPIO'
+import gpio from 'rpi-gpio'
 
 export default class Listener {
 
     constructor() {
 
         gpio.on('change', this.channelUpdated);
+        //setup();
+    }
+
+    setup() {
+
+        gpio.setup(3, 'DIR_IN', function (err) {
+            console.log('Error: ' + err);
+        });
     }
 
     channelUpdated(channel, value) {
 
         console.log(channel + " " + value);
+    }
+
+    read() {
+
+        gpio.read(3, function (err, value) {
+
+            console.log(err + " " + value);
+        })
     }
 }
