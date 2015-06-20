@@ -7,9 +7,10 @@
  |--------------------------------------------------------------------------
  */
 
-import gpio from 'rpi-gpio'
+import Gpio from 'rpi-gpio'
 import io from 'socket.io'
 
+var gpio = new Gpio();
 import testGPIO from '../tests/GPIO'
 
 export default class Listener {
