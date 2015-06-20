@@ -22,7 +22,7 @@ export default class Listener {
         gpio.setup(3, gpio.DIR_IN, function (err) {
 
             this.read();
-        });
+        }.bind(this));
     }
 
     channelUpdated(channel, value) {
