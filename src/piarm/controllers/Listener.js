@@ -14,13 +14,14 @@ export default class Listener {
     constructor() {
 
         gpio.on('change', this.channelUpdated);
-        //setup();
+        this.setup();
     }
 
     setup() {
 
-        gpio.setup(3, 'DIR_IN', function (err) {
-            console.log('Error: ' + err);
+        gpio.setup(3, gpio.DIR_IN, function (err) {
+
+            this.read();
         });
     }
 

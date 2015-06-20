@@ -15,4 +15,3 @@ class Test extends Listener {
 }
 
 var x = new Test();
-x.read();
