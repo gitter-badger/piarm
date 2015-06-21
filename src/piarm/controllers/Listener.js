@@ -7,18 +7,13 @@
  |--------------------------------------------------------------------------
  */
 
-import gpio from 'rpi-gpio'
-import { EventEmitter } from 'events'
-
-let watcher = new EventEmitter();
+import gpio from '../lib/rpi-gpio'
 
 export default class Listener {
 
     constructor() {
 
-
-
-        this.listen();
+        gpio.on('change', this.channelUpdated);
         this.setup();
     }
 
@@ -27,22 +22,12 @@ export default class Listener {
         gpio.setup(3, gpio.DIR_IN, function (err) {
 
             if (err) throw err;
-            this.read();
+            this.listen();
         }.bind(this));
     }
 
     read() {
 
-        setTimeout(function() {
-            gpio.read(3, function (err, value) {
-
-                if (err) throw err;
-                watcher.emit('change', 3, value)
-            })
-        }, 300);
-        process.nextTick(function() {
-            this.read()
-        }.bind(this))
     }
 
     channelUpdated(channel, value) {
@@ -52,6 +37,6 @@ export default class Listener {
 
     listen() {
 
-        watcher.on('change', this.channelUpdated);
+        gpio.on('change', this.channelUpdated)
     }
 }

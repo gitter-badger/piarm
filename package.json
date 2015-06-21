@@ -4,6 +4,8 @@
   "description": "Smart alarm system",
   "main": "./src/build",
   "dependencies": {
+    "async": "^1.2.1",
+    "debug": "^2.2.0",
     "rpi-gpio": "^0.5.2",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5"
