@@ -3,6 +3,7 @@ var util         = require('util');
 var EventEmitter = require('events').EventEmitter;
 var async        = require('async');
 var debug        = require('debug')('rpi-gpio');
+var Epoll = require('epoll').Epoll;
 
 var PATH = '/sys/class/gpio';
 var PINS = {
@@ -86,6 +87,7 @@ function Gpio() {
     var exportedOutputPins = {};
     var getPinForCurrentMode = getPinRpi;
     var pollFrequency = 5007;
+    var poller;
 
     this.DIR_IN   = 'in';
     this.DIR_OUT  = 'out';
@@ -237,6 +239,10 @@ function Gpio() {
      * @param {function} cb Optional callback
      */
     this.destroy = function(cb) {
+        if(poller){
+            poller.close();
+            poller = undefined;
+        }
         var tasks = Object.keys(exportedOutputPins)
             .concat(Object.keys(exportedInputPins))
             .map(function(pin) {
@@ -331,19 +337,25 @@ function Gpio() {
     function createListener(channel, pin) {
         debug('listen for pin %d', pin);
         var Gpio = this;
-        //function(current, previous) {
-            if (current.mtime > previous.mtime) {
-                Gpio.read(channel, function(err, value) {
-                    debug(
-                        'failed to read value after a change on channel %d',
-                        channel
-                    );
+
+        // only initialize poller on first use
+        if(!poller){
+            poller = new Epoll(function (err, fd, events) {
+                // Read GPIO value file. Reading also clears the interrupt.
+                Gpio.read(channel, function(err, value){
                     Gpio.emit('change', channel, value);
                 });
-            }
-        //}
+            });
+        }
 
-    }
+        var fd = fs.openSync(PATH + '/gpio' + pin + '/value', 'r');
+
+        // Read the GPIO value file before watching to prevent an initial unauthentic interrupt.
+        fs.readSync(fd, new Buffer(1), 0, 1, 0);
+
+        // Start watching for interrupts.
+        poller.add(fd, Epoll.EPOLLPRI);
+    };
 }
 util.inherits(Gpio, EventEmitter);
 
