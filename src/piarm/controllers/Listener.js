@@ -33,16 +33,16 @@ export default class Listener {
 
     read() {
 
-        let i = true;
-        while(i) {
-            setTimeout(function() {
-                gpio.read(3, function (err, value) {
+        setTimeout(function() {
+            gpio.read(3, function (err, value) {
 
-                    if (err) throw err;
-                    watcher.emit('change', 3, value)
-                })
-            }, 300)
-        }
+                if (err) throw err;
+                watcher.emit('change', 3, value)
+            })
+        }, 300);
+        process.nextTick(function() {
+            this.read()
+        }.bind(this))
     }
 
     channelUpdated(channel, value) {
