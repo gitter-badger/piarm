@@ -15,6 +15,7 @@ export default class Listener {
 
         this.listen();
         this.setup();
+        gpio.setPollFrequency(200);
     }
 
     setup() {
