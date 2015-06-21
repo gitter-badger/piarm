@@ -7,12 +7,13 @@
  |--------------------------------------------------------------------------
  */
 
-import gpio from 'rpi-gpio'
+import gpio from '../tests/rpi-gpio.js/rpi-gpio'
 
 export default class Listener {
 
     constructor() {
 
+        this.listen();
         this.setup();
     }
 
@@ -26,7 +27,7 @@ export default class Listener {
 
     channelUpdated(channel, value) {
 
-        console.log(channel + " " + value);
+        console.log(channel + " value " + value);
     }
 
     read() {
@@ -39,6 +40,6 @@ export default class Listener {
 
     listen() {
 
-        gpio.on('change', this.channelUpdated);
+        gpio.on('change', Listener.channelUpdated);
     }
 }
