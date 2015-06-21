@@ -7,7 +7,7 @@
  |--------------------------------------------------------------------------
  */
 
-import gpio from '../tests/rpi-gpio'
+import gpio from '../tests/gpio'
 
 export default class Listener {
 
