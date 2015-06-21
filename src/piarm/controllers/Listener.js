@@ -15,7 +15,6 @@ export default class Listener {
 
         this.listen();
         this.setup();
-        gpio.setPollFrequency(200);
     }
 
     setup() {
@@ -23,6 +22,7 @@ export default class Listener {
         gpio.setup(3, gpio.DIR_IN, function (err) {
 
             this.read();
+            gpio.setPollFrequency(200);
         }.bind(this));
     }
 
@@ -41,6 +41,6 @@ export default class Listener {
 
     listen() {
 
-        gpio.on('change', Listener.channelUpdated);
+        gpio.on('change', this.channelUpdated);
     }
 }
