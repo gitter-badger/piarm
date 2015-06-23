@@ -4,6 +4,6 @@
  |--------------------------------------------------------------------------
  **/
 
-import Listener from './controllers/Listener'
+import Flux from './flux'
 
-let listen = new Listener([3,5]);
+import Listener from './controllers/Listener'

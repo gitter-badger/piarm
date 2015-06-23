@@ -1,20 +1,21 @@
 /*
  |--------------------------------------------------------------------------
- | Listens to events and responds to them accordingly
- |
- | Uses a test GPIO class or a Raspberry specific class
- | depending on environment
+ | Listens for GPIO interrupts and deals with them
  |--------------------------------------------------------------------------
  */
 
+import Flux from '../flux'
 import gpio from '../lib/rpi-gpio'
 
 export default class Listener {
 
     constructor(channels) {
 
-        this.channels = channels;
-        this.setup();
+        this.channels = [];
+
+        Flux.getStore('channels').addListener('change', this.channelsUpdated);
+        Flux.getActions('channels').getChannels();
+
         this.listen();
     }
 
@@ -23,27 +24,22 @@ export default class Listener {
         this.channels.forEach(function (channel) {
             gpio.setup(channel, gpio.DIR_IN, 'both', function (err) {
                 if (err) throw err;
-            })
-        })
-    }
-
-    read() {
-
-        this.channels.forEach(function (channel) {
-
-            gpio.read(channel, function (err, value) {
-
-                if (err) throw err;
-                console.log('channel: ' + channel + ' value: ' + value)
-            })
-        })
+                gpio.listen();
+            }.bind(this))
+        }.bind(this))
     }
 
     listen() {
 
-        gpio.on('change', function () {
+        gpio.on('change', function (channel, pin) {
 
-            this.read()
-        }.bind(this));
+            console.log(channel + " : " + pin);
+        });
+    }
+
+    channelsUpdated() {
+
+        this.channels = Flux.getStore('channels').getState().channels;
+        this.setup();
     }
 }

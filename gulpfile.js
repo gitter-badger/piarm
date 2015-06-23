@@ -35,7 +35,7 @@ var paths = {
 };
 /*| ------------ FILES TO BE COPIED TO ./src/build ------------ |*/
 var files = [
-    './src/piarm/.env'
+    './src/piarm/.channels'
 ];
 
 /*| ------------ BUILDER ------------ |*/
