@@ -11,32 +11,39 @@ import gpio from '../lib/rpi-gpio'
 
 export default class Listener {
 
-    constructor() {
+    constructor(channels) {
 
-        gpio.on('change', this.channelUpdated);
+        this.channels = channels;
         this.setup();
+        this.listen();
     }
 
     setup() {
 
-        gpio.setup(3, gpio.DIR_IN, function (err) {
-
-            if (err) throw err;
-            this.listen();
-        }.bind(this));
+        this.channels.forEach(function (channel) {
+            gpio.setup(channel, gpio.DIR_IN, 'both', function (err) {
+                if (err) throw err;
+            })
+        })
     }
 
     read() {
 
-    }
+        this.channels.forEach(function (channel) {
 
-    channelUpdated(channel, value) {
+            gpio.read(channel, function (err, value) {
 
-        console.log("channel: " + channel + " value: " + value);
+                if (err) throw err;
+                console.log('channel: ' + channel + ' value: ' + value)
+            })
+        })
     }
 
     listen() {
 
-        gpio.on('change', this.channelUpdated)
+        gpio.on('change', function (channel, value) {
+
+            this.read()
+        }.bind(this));
     }
 }
