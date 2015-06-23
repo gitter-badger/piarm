@@ -41,7 +41,7 @@ export default class Listener {
 
     listen() {
 
-        gpio.on('change', function (channel, value) {
+        gpio.on('change', function () {
 
             this.read()
         }.bind(this));

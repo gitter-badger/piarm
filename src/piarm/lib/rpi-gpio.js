@@ -359,13 +359,7 @@ function Gpio() {
             poller = new Epoll(function (err, fd, events) {
 
                 clearInterrupt(fd);
-                Gpio.read(channel, function (err, value) {
-                    debug(
-                        'failed to read value after a change on channel %d',
-                        channel
-                    );
-                    Gpio.emit('change', channel, value);
-                });
+                Gpio.emit('change');
             });
         }
 
