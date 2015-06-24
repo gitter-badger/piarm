@@ -5,8 +5,9 @@
  **/
 
 import { Store } from 'flummox'
+import fs from 'fs'
 
-class Channels extends Store {
+export default class Channels extends Store {
 
     constructor(flux) {
 
@@ -14,6 +15,7 @@ class Channels extends Store {
 
         this.register(flux.getActions('channels').getChannels, this.getChannels);
         this.register(flux.getActions('channels').addChannel, this.addChannel);
+        this.register(flux.getActions('channels').removeChannel, this.removeChannel);
 
         this.state = {
             channels: []
@@ -36,10 +38,49 @@ class Channels extends Store {
         })
     }
 
+    removeChannel(identifier) {
+
+        let path = './.channels';
+        let data = '';
+        fs.exists(path, function (exists) {
+            if (exists) {
+                fs.readFile(path, "utf8", function (err, res) {
+                    if (err) console.log(err);
+
+                    res.toString().split(/\r?\n/).forEach(function (line) {
+
+                        if (typeof identifier === 'string') {
+                            if (line.substr(0, line.indexOf('=')) != identifier) {
+                                if (line != '') {
+                                    console.log(line);
+                                    data += line + '\n';
+                                }
+                            }
+                        } else {
+                            if (line.substr(line.indexOf('=') + 1) != identifier) {
+                                if (line != '') {
+                                    console.log(line);
+                                    data += line + '\n';
+                                }
+                            }
+                        }
+                    });
+
+                    fs.writeFile(path, data, function (err) {
+                        if (err) console.log(err);
+                    });
+                });
+            } else {
+                console.log("File doesn't exist!");
+            }
+        });
+    }
+
     getChannels() {
 
         let _this = this;
         let path = "./.channels";
+        let channels;
         fs.exists(path, function (exists) {
             if (exists) {
                 fs.readFile(path, "utf8", function (err, res) {
@@ -49,18 +90,18 @@ class Channels extends Store {
 
                         let name = line.substr(0, line.indexOf('='));
                         let channel = line.substr(line.indexOf('=') + 1);
-                        let channels = _this.state.channels.push({
+                        channels = _this.state.channels;
+                        channels.push({
                             name: name,
                             channel: channel
                         });
+                    });
 
-                        _this.setState({
-                            channels: channels
-                        });
+                    _this.setState({
+                        channels: channels
                     });
                 });
             } else {
-
                 console.log("File doesn't exist!");
             }
         });

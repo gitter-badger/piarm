@@ -1,45 +1,48 @@
 /*
  |--------------------------------------------------------------------------
- | Listens for GPIO interrupts and deals with them
+ | Listens for Gpio interrupts and deals with them
  |--------------------------------------------------------------------------
  */
 
 import Flux from '../flux'
-import gpio from '../lib/rpi-gpio'
+import Gpio from '../lib/rpi-Gpio'
+import Handler from './Handler'
 
-export default class Listener {
+class Listener {
 
-    constructor(channels) {
+    constructor() {
 
         this.channels = [];
 
-        Flux.getStore('channels').addListener('change', this.channelsUpdated);
+        Flux.getStore('channels').addListener('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
+        Flux.getActions('channels').removeChannel(5);
 
         this.listen();
-        this.setup();
     }
 
     setup() {
 
-        this.channels.forEach(function (channel) {
-            gpio.setup(channel, gpio.DIR_IN, gpio.EDGE_BOTH, function (err) {
+        Gpio.destroy();
+        this.channels.forEach(function (map) {
+            Gpio.setup(map.channel, Gpio.DIR_IN, Gpio.EDGE_BOTH, function (err) {
                 if (err) throw err;
+                console.log('set up channel: ' + map.channel);
             }.bind(this))
         }.bind(this))
     }
 
     listen() {
 
-        gpio.on('change', function (channel, pin) {
-
-            console.log(channel + " : " + pin);
-        });
+        Gpio.on('change', Handler.handlePinChange);
     }
 
-    channelsUpdated() {
+    storeUpdated = () => {
 
         this.channels = Flux.getStore('channels').getState().channels;
         this.setup();
     }
 }
+
+var run = new Listener();
+export default run;

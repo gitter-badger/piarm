@@ -311,6 +311,9 @@ function Gpio() {
                 return cb(null);
             }
         });
+        return process.nextTick(function () {
+            cb(new Error('That pin is not under watch'));
+        });
     };
 
     /**

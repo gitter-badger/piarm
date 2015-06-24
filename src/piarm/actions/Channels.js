@@ -2,15 +2,15 @@
  |--------------------------------------------------------------------------
  | Actions to interact with the Channels store
  |--------------------------------------------------------------------------
-**/
+ **/
 
 import { Actions } from 'flummox'
 
-class Channels extends Actions {
+export default class Channels extends Actions {
 
     getChannels() {
 
-        return undefined;
+        return true;
     }
 
     addChannel(name, channel) {
@@ -21,12 +21,8 @@ class Channels extends Actions {
         }
     }
 
-    removeChannel(name, channel) {
+    removeChannel(identifier) {
 
-        if (name) {
-            return name;
-        } else {
-            return channel;
-        }
+        return identifier;
     }
 }

@@ -44,7 +44,7 @@ gulp.task('build', function () {
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(_if(flag.debug, transpile()))
-        .pipe(transpile())
+        .pipe(transpile({stage: 0}))
         .pipe(sourcemaps.write(paths.sourcemaps))
         .pipe(gulp.dest(paths.out));
 

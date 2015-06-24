@@ -5,5 +5,4 @@
  **/
 
 import Listener from './controllers/Listener'
-
-const run = new Listener();
+import Socket from './controllers/Socket'
