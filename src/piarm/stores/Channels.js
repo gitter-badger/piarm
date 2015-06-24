@@ -13,10 +13,27 @@ class Channels extends Store {
         super();
 
         this.register(flux.getActions('channels').getChannels, this.getChannels);
+        this.register(flux.getActions('channels').addChannel, this.addChannel);
 
         this.state = {
             channels: []
         }
+    }
+
+    addChannel(info) {
+
+        let path = "./.channels";
+        fs.exists(path, function (exists) {
+            if (exists) {
+                fs.appendFile(path, "\n" + info.name + "=" + info.channel, function (err) {
+                    if (err) console.log(err);
+                });
+            } else {
+                fs.writeFile(path, info.name + "=" + infor.channel, function (err) {
+                    if (err) console.log(err);
+                })
+            }
+        })
     }
 
     getChannels() {

@@ -4,6 +4,6 @@
  |--------------------------------------------------------------------------
  **/
 
-import Flux from './flux'
-
 import Listener from './controllers/Listener'
+
+const run = new Listener();

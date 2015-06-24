@@ -17,14 +17,14 @@ export default class Listener {
         Flux.getActions('channels').getChannels();
 
         this.listen();
+        this.setup();
     }
 
     setup() {
 
         this.channels.forEach(function (channel) {
-            gpio.setup(channel, gpio.DIR_IN, 'both', function (err) {
+            gpio.setup(channel, gpio.DIR_IN, gpio.EDGE_BOTH, function (err) {
                 if (err) throw err;
-                gpio.listen();
             }.bind(this))
         }.bind(this))
     }
