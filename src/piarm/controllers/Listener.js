@@ -5,7 +5,7 @@
  */
 
 import Flux from '../flux'
-import Gpio from '../lib/rpi-Gpio'
+import Gpio from '../lib/rpi-gpio'
 import Socket from './Socket'
 import Handler from './Handler'
 
@@ -15,7 +15,7 @@ class Listener {
 
         this.channels = [];
 
-        Flux.getStore('channels').addListener('change', this.storeUpdated);
+        Flux.getStore('channels').on('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
 
         this.listen()
@@ -36,7 +36,7 @@ class Listener {
     listen() {
 
         Gpio.on('change', Handler.handlePinChange);
-        Socket.on('change', Handler.handlePushCommand)
+        Socket.on('command', Handler.handlePushCommand)
     }
 
     storeUpdated = () => {

@@ -6,12 +6,15 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
+import EventEmitter from 'events'
 
-class Socket {
+class Socket extends EventEmitter {
 
     constructor() {
 
-        Flux.getStore('users').addListener('change', this.storeUpdated);
+        super();
+
+        Flux.getStore('users').on('change', this.storeUpdated);
         Flux.getActions('users').getCredentials();
 
         this.credentials = {};
@@ -19,7 +22,7 @@ class Socket {
         this.connect()
     }
 
-    connect(){
+    connect = () => {
 
     };
 

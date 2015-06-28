@@ -5,6 +5,7 @@
  **/
 
 import { Store } from 'flummox'
+import fs from 'fs'
 
 export default class Users extends Store {
 
