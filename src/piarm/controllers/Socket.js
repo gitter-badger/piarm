@@ -19,16 +19,14 @@ class Socket {
         this.connect()
     }
 
-    connect = () => {
-
+    connect(){
 
     };
 
     storeUpdated = () => {
 
         this.credentials = Flux.getStore('users').getUser();
-    }
+    };
 }
-
 const run = new Socket();
 export default run;

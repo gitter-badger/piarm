@@ -1,0 +1,16 @@
+{
+  "channels": [
+    {
+      "name": "Front Door",
+      "channel": 3,
+      "direction": "in",
+      "edge": "both"
+    },
+    {
+      "name": "Light",
+      "channel": 5,
+      "direction": "out",
+      "edge": "rising"
+    }
+  ]
+}

@@ -6,6 +6,7 @@
 
 import Flux from '../flux'
 import Gpio from '../lib/rpi-Gpio'
+import Socket from './Socket'
 import Handler from './Handler'
 
 class Listener {
@@ -16,33 +17,33 @@ class Listener {
 
         Flux.getStore('channels').addListener('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
-        Flux.getActions('channels').removeChannel(5);
 
-        this.listen();
+        this.listen()
     }
 
-    setup() {
+    setup(){
 
         Gpio.destroy();
+        var _this = this;
         this.channels.forEach(function (map) {
             Gpio.setup(map.channel, Gpio.DIR_IN, Gpio.EDGE_BOTH, function (err) {
                 if (err) throw err;
-                console.log('set up channel: ' + map.channel);
-            }.bind(this))
-        }.bind(this))
+                console.log('set up channel: ' + map.channel)
+            })
+        });
     }
 
     listen() {
 
         Gpio.on('change', Handler.handlePinChange);
+        Socket.on('change', Handler.handlePushCommand)
     }
 
     storeUpdated = () => {
 
         this.channels = Flux.getStore('channels').getState().channels;
-        this.setup();
+        this.setup()
     }
 }
-
-var run = new Listener();
+const run = new Listener();
 export default run;

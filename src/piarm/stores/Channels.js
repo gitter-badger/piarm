@@ -24,14 +24,51 @@ export default class Channels extends Store {
 
     addChannel(info) {
 
-        let path = "./.channels";
+        let path = "./channels.json";
         fs.exists(path, function (exists) {
             if (exists) {
-                fs.appendFile(path, "\n" + info.name + "=" + info.channel, function (err) {
+                fs.readFile(path, "utf8", function (err, res) {
                     if (err) console.log(err);
+
+                    let data = res;
+
+                    if (res.channels) {
+                        res.channels.push({
+                            name: info.name,
+                            channel: info.channel,
+                            direction: info.direction,
+                            edge: info.edge
+                        });
+                    } else {
+                        data = {
+                            channels: [
+                                {
+                                    name: info.name,
+                                    channel: info.channel,
+                                    direction: info.direction,
+                                    edge: info.edge
+                                }
+                            ]
+                        };
+                    }
+
+                    fs.writeFile(path, data, function (err) {
+                        if (err) console.log(err);
+                    });
                 });
             } else {
-                fs.writeFile(path, info.name + "=" + infor.channel, function (err) {
+                let data = {
+                    channels: [
+                        {
+                            name: info.name,
+                            channel: info.channel,
+                            direction: info.direction,
+                            edge: info.edge
+                        }
+                    ]
+                };
+
+                fs.writeFile(path, data, function (err) {
                     if (err) console.log(err);
                 })
             }
@@ -40,35 +77,33 @@ export default class Channels extends Store {
 
     removeChannel(identifier) {
 
-        let path = './.channels';
+        let path = './channels.json';
         let data = '';
         fs.exists(path, function (exists) {
             if (exists) {
                 fs.readFile(path, "utf8", function (err, res) {
                     if (err) console.log(err);
 
-                    res.toString().split(/\r?\n/).forEach(function (line) {
+                    let data = res;
 
-                        if (typeof identifier === 'string') {
-                            if (line.substr(0, line.indexOf('=')) != identifier) {
-                                if (line != '') {
-                                    console.log(line);
-                                    data += line + '\n';
+                    if (res.channels) {
+                        res.channels.forEach(function (element, index) {
+
+                            if (typeof identifier === 'string') {
+                                if (element.name != identifier) {
+                                    data.channels.splice(index, 1);
+                                }
+                            } else {
+                                if (element.channel != identifier) {
+                                    data.channels.splice(index, 1);
                                 }
                             }
-                        } else {
-                            if (line.substr(line.indexOf('=') + 1) != identifier) {
-                                if (line != '') {
-                                    console.log(line);
-                                    data += line + '\n';
-                                }
-                            }
-                        }
-                    });
+                        });
 
-                    fs.writeFile(path, data, function (err) {
-                        if (err) console.log(err);
-                    });
+                        fs.writeFile(path, data, function (err) {
+                            if (err) console.log(err);
+                        });
+                    }
                 });
             } else {
                 console.log("File doesn't exist!");
@@ -79,27 +114,28 @@ export default class Channels extends Store {
     getChannels() {
 
         let _this = this;
-        let path = "./.channels";
+        let path = "./channels.json";
         let channels;
         fs.exists(path, function (exists) {
             if (exists) {
                 fs.readFile(path, "utf8", function (err, res) {
                     if (err) console.log(err);
 
-                    res.toString().split(/\r?\n/).forEach(function (line) {
-
-                        let name = line.substr(0, line.indexOf('='));
-                        let channel = line.substr(line.indexOf('=') + 1);
-                        channels = _this.state.channels;
-                        channels.push({
-                            name: name,
-                            channel: channel
+                    if (res.channels) {
+                        res.channels.forEach(function (channel) {
+                            channels = _this.state.channels;
+                            channels.push({
+                                name: channel.name,
+                                channel: channel.channel,
+                                direction: channel.direction,
+                                edge: channel.edge
+                            });
                         });
-                    });
 
-                    _this.setState({
-                        channels: channels
-                    });
+                        _this.setState({
+                            channels: channels
+                        });
+                    }
                 });
             } else {
                 console.log("File doesn't exist!");

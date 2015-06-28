@@ -1,8 +1,7 @@
 /*
  |--------------------------------------------------------------------------
- | Main File
+ | Run file
  |--------------------------------------------------------------------------
  **/
 
 import Listener from './controllers/Listener'
-import Socket from './controllers/Socket'

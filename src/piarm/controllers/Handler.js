@@ -1,6 +1,6 @@
 /*
  |--------------------------------------------------------------------------
- | Handles GPIO pin changes
+ | Handles GPIO pin changes and push commands
  |--------------------------------------------------------------------------
 **/
 
@@ -18,6 +18,5 @@ class Handler {
 
     }
 }
-
 let run = new Handler();
 export default run;

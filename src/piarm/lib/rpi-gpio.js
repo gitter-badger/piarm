@@ -127,14 +127,14 @@ function Gpio() {
         if (arguments.length === 2 && typeof direction == 'function') {
             onSetup = direction;
             direction = this.DIR_OUT;
-            edge = this.EDGE_NONE;
+            edge = this.EDGE_BOTH;
         } else if (arguments.length === 3 && typeof edge == 'function') {
             onSetup = edge;
-            edge = this.EDGE_NONE;
+            edge = this.EDGE_BOTH;
         }
 
         direction = direction || this.DIR_OUT;
-        edge = edge || this.EDGE_NONE;
+        edge = edge || this.EDGE_BOTH;
         onSetup = onSetup || function () {};
 
         if (!channel) {
