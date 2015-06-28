@@ -24,14 +24,14 @@ export default class Users extends Store {
 
     storeCredentials(user) {
 
-        let data = user.email + '\n' + user.secret;
+        let data = user.email + '\n' + user.token;
         fs.writeFile(this.path, data, function (err) {
             if (err) throw err;
 
             this.setState({
                 user: {
                     email: user.email,
-                    secret: user.secret
+                    token: user.token
                 }
             })
         }.bind(this))
@@ -53,7 +53,7 @@ export default class Users extends Store {
                     _this.setState({
                         user: {
                             email: data[0],
-                            secret: data[1]
+                            token: data[1]
                         }
                     })
                 })

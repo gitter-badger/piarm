@@ -1,22 +1,14 @@
 /*
  |--------------------------------------------------------------------------
- | Handles GPIO pin changes and push commands
+ | Handles GPIO pin changes
  |--------------------------------------------------------------------------
 **/
 
-class Handler {
-
-    constructor() {
-
-    }
+class GpioHandler {
 
     handlePinChange(channel, value) {
 
     }
-
-    handlePushCommand() {
-
-    }
 }
-let run = new Handler();
+let run = new GpioHandler();
 export default run;

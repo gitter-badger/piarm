@@ -4,4 +4,5 @@
  |--------------------------------------------------------------------------
  **/
 
-import Listener from './controllers/Listener'
+import Gpio from './controllers/Gpio'
+import Socket from './controllers/Socket'
