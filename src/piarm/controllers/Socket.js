@@ -19,17 +19,16 @@ class Socket {
 
         Flux.getStore('users').on('change', this.storeUpdated);
         Flux.getActions('users').getCredentials();
-
-        this.listen()
     }
 
-    connect() {
+    connect = () => {
 
         this.state.socket = io('http://192.168.0.144:3000', {
             email: this.state.user.email,
             token: this.state.user.token
         });
-    }
+        this.listen()
+    };
 
     listen() {
 

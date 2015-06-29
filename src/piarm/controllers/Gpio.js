@@ -42,5 +42,5 @@ class GPIO {
         this.setup()
     }
 }
-const run = new Listener();
+const run = new GPIO();
 export default run;
