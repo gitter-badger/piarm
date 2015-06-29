@@ -16,7 +16,7 @@ export default class Users extends Store {
         this.register(flux.getActions('users').storeCredentials, this.storeCredentials);
         this.register(flux.getActions('users').getCredentials, this.getCredentials);
 
-        this.path = './.user';
+        this.path = './user.json';
         this.state = {
             user: {}
         }

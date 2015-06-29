@@ -121,6 +121,7 @@ export default class Channels extends Store {
                 fs.readFile(path, "utf8", function (err, res) {
                     if (err) console.log(err);
 
+                    res = JSON.parse(res);
                     if (res.channels) {
                         res.channels.forEach(function (channel) {
                             channels = _this.state.channels;

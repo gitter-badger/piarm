@@ -14,8 +14,12 @@ class GPIO {
 
         this.channels = [];
 
-        Flux.getStore('channels').on('change', this.storeUpdated);
+        Flux.getStore('channels').addListener('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
+
+        setTimeout(function () {
+            this.storeUpdated();
+        }.bind(this), 5000);
 
         this.listen()
     }
@@ -39,6 +43,7 @@ class GPIO {
     storeUpdated = () => {
 
         this.channels = Flux.getStore('channels').getState().channels;
+        console.log(this.channels);
         this.setup()
     }
 }
