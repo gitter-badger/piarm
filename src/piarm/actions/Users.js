@@ -8,7 +8,7 @@ import { Actions } from 'flummox'
 
 export default class Users extends Actions {
 
-    storeCredentials(user) {
+    addUser(user) {
 
         return user;
     }

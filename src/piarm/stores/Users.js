@@ -13,7 +13,7 @@ export default class Users extends Store {
 
         super();
 
-        this.register(flux.getActions('users').storeCredentials, this.storeCredentials);
+        this.register(flux.getActions('users').addUser, this.addUser);
         this.register(flux.getActions('users').getCredentials, this.getCredentials);
 
         this.state = {
@@ -21,12 +21,12 @@ export default class Users extends Store {
         }
     }
 
-    storeCredentials = (user) => {
+    addUser = (user) => {
 
         let _this = this;
-        Mysql.query('SELECT * FROM users ORDER BY users ASC LIMIT 1;', function (err, res) {
+        Mysql.query('SELECT * FROM users LIMIT 1;', function (err, res) {
 
-            if (res == {}) {
+            if (res.length) {
                 Mysql.query("UPDATE users SET " +
                     "email='" + user.email + ", token='" + user.token + "' WHERE " +
                     "id = 1;",
@@ -50,14 +50,16 @@ export default class Users extends Store {
 
     getCredentials() {
 
-        Mysql.query('SELECT * FROM users ORDER BY users ASC LIMIT 1;', function (err, res) {
+        Mysql.query('SELECT * FROM users LIMIT 1;', function (err, res) {
 
-            this.setState({
-                user: {
-                    email: res.email,
-                    token: res.token
-                }
-            })
+            if (res.length) {
+                this.setState({
+                    user: {
+                        email: res[0].email,
+                        token: res[0].token
+                    }
+                })
+            }
         }.bind(this))
     }
 

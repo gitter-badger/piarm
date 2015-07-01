@@ -1,6 +1,6 @@
 /*
  |--------------------------------------------------------------------------
- | Created by Julien Vincent
+ | Query class to interact with the database
  |--------------------------------------------------------------------------
  **/
 
@@ -30,7 +30,7 @@ class Query extends Builder {
 
             return cb(err, r, f);
         }.bind(this))
-    }
+    };
 }
 let run = new Query();
 export default run;

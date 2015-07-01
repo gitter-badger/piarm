@@ -6,6 +6,7 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
+import Mysql from '../database/Query'
 
 class Socket {
 
@@ -18,13 +19,12 @@ class Socket {
 
         Flux.getStore('users').on('change', this.storeUpdated);
         Flux.getActions('users').getCredentials();
-        this.connect()
     }
 
     connect = () => {
 
         this.state.socket = io('http://192.168.0.144:3000');
-        this.listen()
+        this.listen();
     };
 
     listen() {
@@ -47,7 +47,7 @@ class Socket {
 
     storeUpdated = () => {
 
-        this.state.user = Flux.getStore('users').getUser();
+        this.state.user = Flux.getStore('users').getState();
         this.connect()
     };
 }
