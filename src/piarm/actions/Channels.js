@@ -13,16 +13,13 @@ export default class Channels extends Actions {
         return true;
     }
 
-    addChannel(name, channel) {
+    addChannel(info) {
 
-        return {
-            name: name,
-            channel: channel
-        }
+        return info;
     }
 
-    removeChannel(identifier) {
+    removeChannel(id) {
 
-        return identifier;
+        return id;
     }
 }

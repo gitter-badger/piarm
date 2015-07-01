@@ -23,11 +23,7 @@ class GPIO {
 
         Gpio.destroy();
         this.channels.forEach(function (map) {
-            Gpio.setup(map.channel, map.direction, map.edge, function (err) {
-                if (err) throw err;
-
-                console.log('setup channel ' + map.channel);
-            })
+            Gpio.setup(map.channel, map.direction, map.edge)
         });
     }
 

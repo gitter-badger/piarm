@@ -19,7 +19,7 @@ export default class Channels extends Store {
 
         this.state = {
             channels: []
-        };
+        }
     }
 
     addChannel = (info) => {
