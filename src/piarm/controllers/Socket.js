@@ -6,7 +6,6 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
-import Handler from './SocketHandler'
 
 class Socket {
 
@@ -19,26 +18,33 @@ class Socket {
 
         Flux.getStore('users').on('change', this.storeUpdated);
         Flux.getActions('users').getCredentials();
+        this.connect()
     }
 
     connect = () => {
 
-        this.state.socket = io('http://192.168.0.144:3000', {
-            email: this.state.user.email,
-            token: this.state.user.token
-        });
+        this.state.socket = io('http://192.168.0.144:3000');
         this.listen()
+    }
+
+    listen () {
+
+        this.state.socket.on('connect', this.handleConnect);
+        this.state.socket.on('reconnect', this.handleConnect);
+
+        this.state.socket.on('command', this.handleCommand)
     };
 
-    listen() {
+    handleConnect = () => {
 
-        this.state.socket.on('connect', Handler.handleConnect);
-        this.state.socket.on('disconnect', Handler.handleDisconnect);
-        this.state.socket.on('reconnect', Handler.handleReconnect);
+        this.state.socket.emit('auth', this.state.user);
+    };
 
-        this.state.socket.on('command', Handler.handleCommand);
-        this.state.socket.on('state', Handler.handleState)
+    handleCommand (message) {
+
+        console.log(message)
     }
+
 
     storeUpdated = () => {
 

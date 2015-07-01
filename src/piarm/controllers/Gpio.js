@@ -20,14 +20,11 @@ class GPIO {
         this.listen()
     }
 
-    setup(){
+    setup() {
 
         Gpio.destroy();
         this.channels.forEach(function (map) {
-            Gpio.setup(map.channel, Gpio.DIR_IN, Gpio.EDGE_BOTH, function (err) {
-                if (err) throw err;
-                console.log('set up channel: ' + map.channel)
-            })
+            Gpio.setup(map.channel, Gpio.DIR_IN)
         });
     }
 
