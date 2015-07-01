@@ -18,12 +18,7 @@ class GPIO {
         Flux.getActions('channels').getChannels();
         this.listen()
 
-        Handler.on('AlarmChange', this.print);
-    }
-
-    print = (val) =>
-    {
-        console.log('val: ' + val);
+        Handler.on('AlarmChange', Handler.alarmFunction);
     }
 
     setup(){

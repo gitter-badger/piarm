@@ -6,22 +6,22 @@
 import Flux from '../flux'
 import { EventEmitter } from 'events';
 
-class GpioHandler {
+class GpioHandler extends EventEmitter {
 
     constructor()
     {
+        super();
+
         this.channels = [];
         this.alarm = false;
 
         Flux.getStore('channels').on('change', this.storeUpdated);
 
+        // testing code
         setTimeout(function()
         {
-            console.log("2000!");
-            console.log(JSON.stringify(this.channels, null, 4));
+            console.log("Channel " + this.channels[0].channel + " is now armed");
             this.channels[0].armed = true;
-            console.log(JSON.stringify(this.channels, null, 4));
-
         }.bind(this), 2000);
 
     }
@@ -35,6 +35,11 @@ class GpioHandler {
         });*/
     };
 
+    alarmFunction = (val) =>
+    {
+        console.log('Alarm: ' + val);
+    }
+
     handlePinChange = (channel, value) => {
         //console.log("channel, value: " + channel + ", " + value);
         this.channels.forEach(function(res, index)
@@ -45,7 +50,6 @@ class GpioHandler {
                 if (res.armed)
                 {
                     this.alarm = true;
-                    console.log("alarm!");
                     this.emit('AlarmChange', this.alarm);
                 }
             }
