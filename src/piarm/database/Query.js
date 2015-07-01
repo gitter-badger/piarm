@@ -21,9 +21,12 @@ class Query extends Builder {
             };
 
         Connector.getConnection().query(statement, function (err, r, f) {
-            if (err) return process.nextTick(function () {
-                this.query(statement, cb)
-            }.bind(this));
+            if (err) {
+                if (err.errno == 1046) return process.nextTick(function () {
+
+                    this.query(statement, cb)
+                }.bind(this));
+            }
 
             return cb(err, r, f);
         }.bind(this))

@@ -17,14 +17,7 @@ class GpioHandler extends EventEmitter {
         };
 
         Flux.getStore('channels').on('change', this.storeUpdated);
-
-        // testing code
-        setTimeout(function () {
-            console.log("Channel " + this.state.channels[0].channel + " is now armed");
-            this.state.channels[0].armed = true;
-        }.bind(this), 2000);
     }
-
 
     storeUpdated = () => {
         this.state.channels = Flux.getStore('channels').getState().channels;

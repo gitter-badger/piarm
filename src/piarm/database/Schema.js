@@ -7,17 +7,20 @@
 let schema = [
     "CREATE TABLE channels" +
     "(" +
-    "id integer(11), " +
-    "channel varchar(2), " +
-    "direction varchar(3), " +
-    "edge varchar(7)" +
+    "id int NOT NULL AUTO_INCREMENT, " +
+    "name varchar(30) NOT NULL, " +
+    "channel varchar(2) NOT NULL, " +
+    "direction varchar(3) NOT NULL, " +
+    "edge varchar(7) NOT NULL, " +
+    "PRIMARY KEY (id)" +
     ");",
 
     "CREATE TABLE users" +
     "(" +
-    "id integer(1), " +
-    "email varchar(50), " +
-    "token varchar(100)" +
+    "id int NOT NULL AUTO_INCREMENT, " +
+    "email varchar(50) NOT NULL, " +
+    "token varchar(100) NOT NULL, " +
+    "PRIMARY KEY (id)" +
     ");"
 ];
 
