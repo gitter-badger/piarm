@@ -6,7 +6,7 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
-import Mysql from '../database/Query'
+import Handler from './SocketHandler'
 
 class Socket {
 
@@ -18,7 +18,7 @@ class Socket {
         };
 
         Flux.getStore('users').on('change', this.storeUpdated);
-        Flux.getActions('users').getCredentials();
+        Flux.getActions('users').getCredentials()
     }
 
     connect = () => {
@@ -32,7 +32,8 @@ class Socket {
         this.state.socket.on('connect', this.handleConnect);
         this.state.socket.on('reconnect', this.handleConnect);
 
-        this.state.socket.on('command', this.handleCommand)
+        this.state.socket.on('auth', this.handleAuth);
+        this.state.socket.on('command', Handler.handleCommand)
     }
 
     handleConnect = () => {
@@ -40,9 +41,18 @@ class Socket {
         this.state.socket.emit('auth', this.state.user);
     };
 
-    handleCommand(message) {
+    handleAuth(status) {
 
-        console.log(message)
+        if (status = 202) {
+
+            this.state.socket
+                .to(this.state.user.token)
+                .emit('state', {
+                    channels: [],
+                    rules: [],
+                    armed: false
+                })
+        }
     }
 
     storeUpdated = () => {

@@ -21,6 +21,13 @@ let schema = [
     "email varchar(50) NOT NULL, " +
     "token varchar(100) NOT NULL, " +
     "PRIMARY KEY (id)" +
+    ");",
+
+    "CREATE TABLE armed" +
+    "(" +
+    "id int NOT NULL AUTO_INCREMENT, " +
+    "armed boolean NOT NULL, " +
+    "PRIMARY KEY (id)" +
     ");"
 ];
 

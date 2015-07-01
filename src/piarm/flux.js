@@ -12,6 +12,9 @@ import ChannelStore from './stores/Channels'
 import UserActions from './actions/Users'
 import UserStore from './stores/Users'
 
+import ArmedActions from './actions/Armed'
+import ArmedStore from './stores/Armed'
+
 class Flux extends Flummox {
 
     constructor() {
@@ -23,6 +26,9 @@ class Flux extends Flummox {
 
         this.createActions('users', UserActions);
         this.createStore('users', UserStore, this);
+
+        this.createActions('armed', ArmedActions);
+        this.createStore('armed', ArmedStore, this)
     }
 }
 

@@ -4,9 +4,8 @@
  |--------------------------------------------------------------------------
  **/
 import Flux from '../flux'
-import EventEmitter from 'events';
 
-class GpioHandler extends EventEmitter {
+class GpioHandler {
 
     constructor() {
         super();
@@ -38,7 +37,6 @@ class GpioHandler extends EventEmitter {
             if (res.channel === channel && value) {
                 if (res.armed) {
                     this.state.alarm = true;
-                    this.emit('AlarmChange', this.alarm);
                 }
             }
         }.bind(this));
