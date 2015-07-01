@@ -16,12 +16,17 @@ class GPIO {
 
         Flux.getStore('channels').on('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
-
         this.listen()
+
+        Handler.on('AlarmChange', this.print);
+    }
+
+    print = (val) =>
+    {
+        console.log('val: ' + val);
     }
 
     setup(){
-
         Gpio.destroy();
         this.channels.forEach(function (map) {
             Gpio.setup(map.channel, Gpio.DIR_IN, Gpio.EDGE_BOTH, function (err) {
