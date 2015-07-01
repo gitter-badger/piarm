@@ -25,26 +25,25 @@ class Socket {
 
         this.state.socket = io('http://192.168.0.144:3000');
         this.listen()
-    }
+    };
 
-    listen () {
+    listen() {
 
         this.state.socket.on('connect', this.handleConnect);
         this.state.socket.on('reconnect', this.handleConnect);
 
         this.state.socket.on('command', this.handleCommand)
-    };
+    }
 
     handleConnect = () => {
 
         this.state.socket.emit('auth', this.state.user);
     };
 
-    handleCommand (message) {
+    handleCommand(message) {
 
         console.log(message)
     }
-
 
     storeUpdated = () => {
 

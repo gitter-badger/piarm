@@ -4,7 +4,7 @@
  |--------------------------------------------------------------------------
  **/
 
-import Mysql from 'node-mysql'
+import Mysql from 'mysql'
 
 class Connector {
 
@@ -13,24 +13,26 @@ class Connector {
         this.connection = Mysql.createConnection({
             host: 'localhost',
             user: 'piarm',
+            password: 'piarm'
+        });
+        this.connection.connect()
+    }
+
+    getConnection() {
+
+        return this.connection;
+    }
+
+    setDatabase(database) {
+
+        this.connection = Mysql.createConnection({
+            host: 'localhost',
+            user: 'piarm',
             password: 'piarm',
-            database: 'piarm'
-        }).connect();
-
-        this.build()
-    }
-
-    build() {
-
-    }
-
-    getChannels() {
-
-        this.connection.query('SELECT * FROM channels', function (err, rows, fields) {
-            if (err) console.log(err);
-
-            console.log(rows);
-            console.log(fields)
-        })
+            database: database
+        });
+        this.connection.connect()
     }
 }
+const run = new Connector();
+export default run;

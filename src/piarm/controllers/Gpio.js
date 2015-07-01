@@ -17,8 +17,6 @@ class GPIO {
         Flux.getStore('channels').on('change', this.storeUpdated);
         Flux.getActions('channels').getChannels();
         this.listen()
-
-        Handler.on('AlarmChange', Handler.alarmFunction);
     }
 
     setup() {
@@ -31,6 +29,7 @@ class GPIO {
     listen() {
 
         Gpio.on('change', Handler.handlePinChange);
+        Handler.on('AlarmChange', Handler.alarmFunction);
     }
 
     storeUpdated = () => {
