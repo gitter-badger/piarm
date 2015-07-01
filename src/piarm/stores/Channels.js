@@ -129,7 +129,8 @@ export default class Channels extends Store {
                                 name: channel.name,
                                 channel: channel.channel,
                                 direction: channel.direction,
-                                edge: channel.edge
+                                edge: channel.edge,
+                                armed : channel.armed
                             });
                         });
 
