@@ -7,18 +7,18 @@
 import { Store } from 'flummox'
 import Mysql from '../database/Query'
 
-export default class Armed extends Store {
+export default class Alarm extends Store {
 
     constructor(flux) {
 
         super();
 
-        this.register(flux.getActions('armed').update, this.update);
-        this.register(flux.getActions('armed').arm, this.arm);
-        this.register(flux.getActions('armed').disarm, this.disarm);
+        this.register(flux.getActions('alarm').update, this.update);
+        this.register(flux.getActions('alarm').arm, this.arm);
+        this.register(flux.getActions('alarm').disarm, this.disarm);
 
         this.state = {
-            armed: false
+            alarm: false
         }
     }
 
@@ -27,7 +27,7 @@ export default class Armed extends Store {
         Mysql.query("SELECT * FROM armed LIMIT 1;", function (err, res) {
             if (res.length) {
                 this.setState({
-                    armed: res[0].armed
+                    alarm: res[0].armed
                 })
             }
         }.bind(this))
@@ -46,7 +46,7 @@ export default class Armed extends Store {
                         if (err) throw err;
 
                         _this.setState({
-                            armed: true
+                            alarm: true
                         })
                     })
             } else {
@@ -57,7 +57,7 @@ export default class Armed extends Store {
                         if (err) throw err;
 
                         _this.setState({
-                            armed: true
+                            alarm: true
                         })
                     })
             }
@@ -66,7 +66,7 @@ export default class Armed extends Store {
 
     disarm() {
 
-        if (this.state.armed) {
+        if (this.state.alarm) {
             Mysql.query("UPDATE armed SET " +
                 "armed='true' WHERE " +
                 "id = 1;",
@@ -74,14 +74,14 @@ export default class Armed extends Store {
                     if (err) throw err;
 
                     this.setState({
-                        armed: true
+                        alarm: true
                     })
                 }.bind(this))
         }
     }
 
-    isArmed() {
+    getState() {
 
-        return this.state.armed;
+        return this.state.alarm;
     }
 }

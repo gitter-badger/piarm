@@ -5,17 +5,16 @@
  **/
 import Flux from '../flux'
 
-class GpioHandler {
+class Handler {
 
     constructor() {
-        super();
+
+        Flux.getStore('channels').on('change', this.storeUpdated);
 
         this.state = {
             channels: [],
-            armed: false
+            alarm: false
         };
-
-        Flux.getStore('channels').on('change', this.storeUpdated);
     }
 
     storeUpdated = () => {
@@ -42,5 +41,5 @@ class GpioHandler {
         }.bind(this));
     }
 }
-let run = new GpioHandler();
+let run = new Handler();
 export default run;

@@ -6,7 +6,7 @@
 
 import Flux from '../flux'
 import Gpio from '../lib/rpi-gpio'
-import Handler from './GpioHandler'
+import Handler from './Handler'
 
 class GPIO {
 

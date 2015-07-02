@@ -23,10 +23,11 @@ let schema = [
     "PRIMARY KEY (id)" +
     ");",
 
-    "CREATE TABLE armed" +
+    "CREATE TABLE alarm" +
     "(" +
     "id int NOT NULL AUTO_INCREMENT, " +
     "armed boolean NOT NULL, " +
+    "last_edited date NOT NULL, " +
     "PRIMARY KEY (id)" +
     ");"
 ];
