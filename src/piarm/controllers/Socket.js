@@ -6,6 +6,7 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
+//import Mysql from '../database/Query'
 
 class Socket {
 
@@ -28,6 +29,7 @@ class Socket {
         Flux.getActions('users').getCredentials();
         Flux.getActions('channels').getChannels();
         //Flux.getActions('alarm').update()
+        //Mysql.seed()
     }
 
     connect = () => {

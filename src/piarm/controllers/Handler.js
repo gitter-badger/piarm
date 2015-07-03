@@ -4,10 +4,13 @@
  |--------------------------------------------------------------------------
  **/
 import Flux from '../flux'
+import { EventEmitter } from 'events'
 
-class Handler {
+class Handler extends EventEmitter {
 
     constructor() {
+
+        super();
 
         Flux.getStore('channels').on('change', this.storeUpdated);
 

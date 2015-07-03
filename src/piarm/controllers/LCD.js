@@ -1,5 +1,5 @@
 /**
- * Created by Daniel on 2015-07-03.
+ * Created by Daniel Robinson on 2015-07-03.
  */
 import Lcd from 'lcd'
 
@@ -12,8 +12,6 @@ class LCD {
     // D5 -- 33 --- 13
     // D6 -- 35 --- 19
     // D7 -- 37 --- 26
-
-
 
     constructor()
     {
@@ -34,8 +32,6 @@ class LCD {
             process.exit();
         }.bind(this));
     }
-
-
 }
 const run = new LCD();
 export default run;
