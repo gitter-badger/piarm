@@ -15,7 +15,7 @@ class GPIO {
         this.channels = [];
 
         Flux.getStore('channels').on('change', this.storeUpdated);
-        Flux.getActions('channels').getChannels();
+        this.storeUpdated();
         this.listen()
     }
 

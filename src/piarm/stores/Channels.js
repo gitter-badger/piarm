@@ -13,13 +13,16 @@ export default class Channels extends Store {
 
         super();
 
-        this.register(flux.getActions('channels').getChannels, this.getChannels);
+        this.debug_enabled = false;
+
         this.register(flux.getActions('channels').addChannel, this.addChannel);
         this.register(flux.getActions('channels').removeChannel, this.removeChannel);
 
         this.state = {
             channels: []
-        }
+        };
+
+        this.getChannels()
     }
 
     addChannel = (info) => {
@@ -46,9 +49,8 @@ export default class Channels extends Store {
     };
 
     getChannels() {
-
         let channels = this.state.channels;
-        Mysql.query('SELECT * FROM channels', function (err, res, fields) {
+        Mysql.query('SELECT * FROM channels', function (err, res) {
             res.forEach(function (row) {
                 channels.push(row)
             });
@@ -61,6 +63,7 @@ export default class Channels extends Store {
 
     getState() {
 
+        if (this.debug_enabled) console.dir(this.state);
         return this.state.channels;
     }
 }

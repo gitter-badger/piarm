@@ -6,6 +6,7 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
+//import Mysql from '../database/Query'
 
 class Socket {
 
@@ -22,12 +23,10 @@ class Socket {
             authorized: false
         };
 
-        Flux.getStore('users').on('change', this._userUpdated);
-        Flux.getStore('channels').on('change', this._channelsUpdated);
-        Flux.getStore('alarm').on('change', this._alarmUpdated);
-        Flux.getActions('users').getCredentials();
-        Flux.getActions('channels').getChannels();
-        //Flux.getActions('alarm').update()
+        Flux.getStore('users').on('change', this._storesUpdated);
+        Flux.getStore('channels').on('change', this._storesUpdated);
+        Flux.getStore('alarm').on('change', this._storesUpdated);
+        this._storesUpdated();
     }
 
     connect = () => {
@@ -76,23 +75,13 @@ class Socket {
         }
     };
 
-    _userUpdated = () => {
+    _storesUpdated = () => {
 
         this.state.user = Flux.getStore('users').getState();
+        this.state.channels = Flux.getStore('channels').getState();
+        this.state.alarm = Flux.getStore('alarm').getState();
         this.connect()
     };
-
-    _channelsUpdated = () => {
-
-        this.state.channels = Flux.getStore('channels').getState();
-        this.pushState()
-    };
-
-    _alarmUpdated = () => {
-
-        this.state.armed = Flux.getStore('alarm').getState();
-        this.pushState()
-    }
 }
 const run = new Socket();
 export default run;

@@ -13,13 +13,14 @@ export default class Alarm extends Store {
 
         super();
 
-        this.register(flux.getActions('alarm').update, this.update);
         this.register(flux.getActions('alarm').arm, this.arm);
         this.register(flux.getActions('alarm').disarm, this.disarm);
 
         this.state = {
             alarm: false
-        }
+        };
+
+        //this.update() // update method not working yet blah blah
     }
 
     update() {

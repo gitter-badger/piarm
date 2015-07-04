@@ -14,11 +14,12 @@ export default class Users extends Store {
         super();
 
         this.register(flux.getActions('users').addUser, this.addUser);
-        this.register(flux.getActions('users').getCredentials, this.getCredentials);
 
         this.state = {
             user: {}
-        }
+        };
+
+        this.getCredentials()
     }
 
     addUser = (user) => {

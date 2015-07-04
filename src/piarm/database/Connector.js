@@ -10,12 +10,15 @@ class Connector {
 
     constructor() {
 
+
         this.connection = Mysql.createConnection({
             host: 'localhost',
             user: 'piarm',
             password: 'piarm'
         });
-        this.connection.connect()
+        this.connection.connect(function (err) {
+             if (err) throw err;
+        });
     }
 
     getConnection() {
