@@ -27,7 +27,12 @@ class Socket {
         Flux.getStore('channels').on('change', this._channelsUpdated);
         Flux.getStore('alarm').on('change', this._alarmUpdated);
         Flux.getActions('users').getCredentials();
-        Flux.getActions('channels').getChannels();
+
+        // Do not uncomment -- otherwise getChannels gets called twice (It's also called in GPIO)
+        // Where shall we put it?
+        // If it is called twice, flux will push the channel table from the db twice..
+        //Flux.getActions('channels').getChannels();
+
         //Flux.getActions('alarm').update()
         //Mysql.seed()
     }

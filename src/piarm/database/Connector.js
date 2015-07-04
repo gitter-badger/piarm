@@ -10,12 +10,19 @@ class Connector {
 
     constructor() {
 
+
+
         this.connection = Mysql.createConnection({
             host: 'localhost',
             user: 'piarm',
             password: 'piarm'
         });
-        this.connection.connect()
+
+        // Julien, can you log a message if there is no connection?
+        this.connection.connect(function(err)
+        {
+            // console.log("err: " + err);
+        });
     }
 
     getConnection() {

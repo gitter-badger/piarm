@@ -21,11 +21,9 @@ class Handler extends EventEmitter {
     }
 
     storeUpdated = () => {
-        this.state.channels = Flux.getStore('channels').getState().channels;
-        /*        this.channels.forEach( function(map)
-         {
-         console.log("map.armed: " + map.armed);
-         });*/
+        this.state.channels = Flux.getStore('channels').getState();
+        console.log("Handler.storeUpdated()");
+        this.debug("this.state.channels: " + JSON.stringify(this.state.channels, null, 4));
     };
 
     alarmFunction = (val) => {
@@ -33,7 +31,7 @@ class Handler extends EventEmitter {
     };
 
     handlePinChange = (channel, value) => {
-        //console.log("channel, value: " + channel + ", " + value);
+        console.log("channel, value: " + channel + ", " + value);
         this.state.channels.forEach(function (res, index) {
             //console.log(JSON.stringify(res, null, 4));
             if (res.channel === channel && value) {
@@ -42,6 +40,16 @@ class Handler extends EventEmitter {
                 }
             }
         }.bind(this));
+    }
+
+    debug = (input) => {
+        /* TODO: make cool debug function that determines if input is Object object or Object array etcetra
+           in other words determine if console .log or .dir should be used
+           (or JSON.stringify(res, null, 4) for that matter.
+         */
+
+        let debug_enable = false;
+        if (debug_enable) console.log(input);
     }
 }
 let run = new Handler();

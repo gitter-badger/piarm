@@ -13,6 +13,8 @@ export default class Channels extends Store {
 
         super();
 
+        this.debug_enabled = false;
+
         this.register(flux.getActions('channels').getChannels, this.getChannels);
         this.register(flux.getActions('channels').addChannel, this.addChannel);
         this.register(flux.getActions('channels').removeChannel, this.removeChannel);
@@ -46,12 +48,13 @@ export default class Channels extends Store {
     };
 
     getChannels() {
-
+        console.log("getChannels()");
         let channels = this.state.channels;
         Mysql.query('SELECT * FROM channels', function (err, res) {
-            res.forEach(function (row) {
-                channels.push(row)
-            });
+/*            res.forEach(function (row) {
+             channels.push(row)
+             });*/
+            channels.push(res);
 
             this.setState({
                 channels: channels
@@ -60,7 +63,8 @@ export default class Channels extends Store {
     }
 
     getState() {
-
+        console.log("getState()");
+        if (this.debug_enabled) console.dir(this.state);
         return this.state.channels;
     }
 }
