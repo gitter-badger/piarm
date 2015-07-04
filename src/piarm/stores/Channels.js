@@ -48,7 +48,7 @@ export default class Channels extends Store {
     getChannels() {
 
         let channels = this.state.channels;
-        Mysql.query('SELECT * FROM channels', function (err, res) {
+        Mysql.query('SELECT * FROM channels', function (err, res, fields) {
             res.forEach(function (row) {
                 channels.push(row)
             });
