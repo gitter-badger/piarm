@@ -41,6 +41,8 @@
  this            : undefined     - Defines the scope for your callback functions.
  */
 
+var navigator = require('navigator');
+
 (function() {
     var Combo, keypress, _change_keycodes_by_browser, _compare_arrays, _compare_arrays_sorted, _convert_key_to_readable, _convert_to_shifted_key, _decide_meta_key, _factory_defaults, _filter_array, _index_of_in_array, _is_array_in_array, _is_array_in_array_sorted, _key_is_valid, _keycode_alternate_names, _keycode_dictionary, _keycode_shifted_keys, _log_error, _metakey, _modifier_event_mapping, _modifier_keys, _validate_combo,
         __hasProp = {}.hasOwnProperty,

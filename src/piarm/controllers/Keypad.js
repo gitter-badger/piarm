@@ -2,13 +2,22 @@
  * Created by Daniel on 2015-07-05.
  */
 
-var Listener = require('../lib/keypress')
+var keydown = require('keydown')
+
+var kd = keydown(['<control>', 'a'])
+
+kd.on('pressed', function() {
+    // control + a are both pressed right now
+    console.log("control + a are both pressed right now")
+})
+
+/*var Listener = require('../lib/keypress')
 
 var listener = new window.keypress.Listener();
 
 listener.simple_combo("shift s", function() {
     console.log("You pressed shift and s");
-});
+});*/
 
 /*
 var keypress = require('keypress');
