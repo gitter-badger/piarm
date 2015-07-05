@@ -13,7 +13,7 @@ let schema = [
     "channel VARCHAR(2) NOT NULL, " +
     "direction VARCHAR(3) NOT NULL, " +
     "edge VARCHAR(7) NOT NULL, " +
-    "updated_at DATETIME NOT NULL" +
+    "last_edited DATETIME NOT NULL, " +
     "PRIMARY KEY (id)" +
     ");",
 
@@ -58,8 +58,7 @@ let schema = [
     "type INT(1) UNSIGNED NOT NULL, " +
     "code INT UNSIGNED NOT NULL, " +
     "last_edited DATETIME NOT NULL, " +
-    "PRIMARY KEY (id), " +
-    "FOREIGN KEY (rule_id)" +
+    "PRIMARY KEY (id)" +
     ");"
 ];
 

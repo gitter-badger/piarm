@@ -7,6 +7,7 @@
 import Mysql from 'mysql'
 import Connector from './Connector'
 import Schema from './Schema'
+import Date from '../lib/Datetime'
 
 export default class Builder {
 
@@ -66,8 +67,8 @@ export default class Builder {
                 }
                 Connector.getConnection().query(
                     "INSERT INTO channels " +
-                    "(name, channel, direction, edge) VALUES " +
-                    "('seed', " + c + ", 'in', 'both');"
+                    "(name, channel, direction, edge, last_edited) VALUES " +
+                    "('seed', " + c + ", 'in', 'both', '" + Date +"');"
                 )
             }
 

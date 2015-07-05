@@ -2,7 +2,7 @@
  |--------------------------------------------------------------------------
  | Created by Julien Vincent
  |--------------------------------------------------------------------------
-**/
+ **/
 
 import { Flummox } from 'flummox'
 
@@ -14,6 +14,9 @@ import UserStore from './stores/Users'
 
 import AlarmActions from './actions/Alarm'
 import AlarmStore from './stores/Alarm'
+
+import RuleActions from './actions/Rules'
+import RuleStore from './stores/Rules'
 
 class Flux extends Flummox {
 
@@ -28,7 +31,10 @@ class Flux extends Flummox {
         this.createStore('users', UserStore, this);
 
         this.createActions('alarm', AlarmActions);
-        this.createStore('alarm', AlarmStore, this)
+        this.createStore('alarm', AlarmStore, this);
+
+        this.createActions('rules', RuleActions);
+        this.createStore('rules', RuleStore, this)
     }
 }
 

@@ -49,6 +49,9 @@ class Handler extends EventEmitter {
          (or JSON.stringify(res, null, 4) for that matter.
          */
 
+        // console.log() and .dir() only do different things when used
+        // in conjunction with A browser like chrome or firefox
+
         let debug_enable = false;
         if (debug_enable) console.log(input);
     }

@@ -6,6 +6,7 @@
 
 import { Store } from 'flummox'
 import Mysql from '../database/Query'
+import Date from '../lib/Datetime'
 
 export default class Channels extends Store {
 
@@ -27,9 +28,9 @@ export default class Channels extends Store {
 
         Mysql.query(
             "INSERT INTO channels " +
-            "(name, channel, direction, edge) " +
+            "(name, channel, direction, edge, last_edited) " +
             "VALUES " +
-            "('" + info.name + "', " + info.channel + ", '" + info.direction + "', '" + info.edge + "');",
+            "('" + info.name + "', " + info.channel + ", '" + info.direction + "', '" + info.edge + "', " + Date + ");",
                 err => {
                 if (err) throw err;
 

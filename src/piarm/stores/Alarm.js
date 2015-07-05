@@ -6,6 +6,7 @@
 
 import { Store } from 'flummox'
 import Mysql from '../database/Query'
+import Date from '../lib/Datetime'
 
 export default class Alarm extends Store {
 
@@ -17,18 +18,21 @@ export default class Alarm extends Store {
         this.register(flux.getActions('alarm').disarm, this.disarm);
 
         this.state = {
-            alarm: false
+            alarm: null
         };
 
-        //this.update() // update method not working yet blah blah
+        this.updateStore()
     }
 
-    update() {
+    updateStore() {
 
         Mysql.query("SELECT * FROM armed LIMIT 1;", (err, res) => {
             if (res.length) {
                 this.setState({
-                    alarm: res[0].armed
+                    alarm: {
+                        armed: res[0].armed,
+                        last_edited: res[0].last_edited
+                    }
                 })
             }
         })
@@ -40,24 +44,31 @@ export default class Alarm extends Store {
 
             if (res.length) {
                 Mysql.query("UPDATE armed SET " +
-                    "armed='true' WHERE " +
+                    "armed='true'" + ", " +
+                    "last_edited=" + Date + " WHERE " +
                     "id = 1;",
                         err => {
                         if (err) throw err;
 
                         this.setState({
-                            alarm: true
+                            alarm: {
+                                armed: true,
+                                last_edited: Date
+                            }
                         })
                     })
             } else {
                 Mysql.query("INSERT INTO armed " +
-                    "(armed) VALUES " +
-                    "('true');",
+                    "(armed, last_edited) VALUES " +
+                    "('true', " + Date + ");",
                         err => {
                         if (err) throw err;
 
                         this.setState({
-                            alarm: true
+                            alarm: {
+                                armed: true,
+                                last_edited: Date
+                            }
                         })
                     })
             }
@@ -66,15 +77,19 @@ export default class Alarm extends Store {
 
     disarm() {
 
-        if (this.state.alarm) {
+        if (this.state.alarm.armed) {
             Mysql.query("UPDATE armed SET " +
-                "armed='true' WHERE " +
+                "armed='false'" + ", " +
+                "last_edited=" + Date + " WHERE " +
                 "id = 1;",
                     err => {
                     if (err) throw err;
 
                     this.setState({
-                        alarm: true
+                        alarm: {
+                            armed: false,
+                            last_edited: Date
+                        }
                     })
                 })
         }
