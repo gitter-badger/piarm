@@ -34,7 +34,9 @@ class Connector {
             password: 'piarm',
             database: database
         });
-        this.connection.connect()
+        this.connection.connect(err => {
+            if (err) throw err;
+        });
     }
 }
 const run = new Connector();

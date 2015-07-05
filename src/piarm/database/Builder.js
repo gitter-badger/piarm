@@ -14,11 +14,6 @@ export default class Builder {
 
         this.database = 'piarm';
         this.createDatabase();
-
-        //this.seed()
-        setTimeout(function(){
-            this.seed();
-        }.bind(this), 3000)
     }
 
     createDatabase = (cb) => {
@@ -39,9 +34,9 @@ export default class Builder {
     build(cb) {
 
         Connector.setDatabase(this.database);
-        Schema.forEach(table => {
+        Schema.forEach(table =>
             Connector.getConnection().query(table)
-        });
+        );
         cb()
     }
 
@@ -51,10 +46,9 @@ export default class Builder {
             };
 
         this.createDatabase(() => {
-            Connector.getConnection().query("DROP DATABASE " + this.database, () => {
-
-                this.createDatabase(cb);
-            })
+            Connector.getConnection().query("DROP DATABASE " + this.database, () =>
+                this.createDatabase(cb)
+            )
         })
     };
 
@@ -81,10 +75,7 @@ export default class Builder {
                 "INSERT INTO users " +
                 "(email, token) VALUES " +
                 "('dummy@gmail.com', '9427eff152d7ca883540b1e53274076c');",
-                () => {
-                    console.log('seed complete')
-                })
+                () => console.log('seed complete'))
         });
-
     }
 }

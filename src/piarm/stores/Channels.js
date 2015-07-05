@@ -13,8 +13,6 @@ export default class Channels extends Store {
 
         super();
 
-        this.debug_enabled = false;
-
         this.register(flux.getActions('channels').addChannel, this.addChannel);
         this.register(flux.getActions('channels').removeChannel, this.removeChannel);
 
