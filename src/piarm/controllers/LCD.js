@@ -13,24 +13,23 @@ class LCD {
     // D6 -- 35 --- 19
     // D7 -- 37 --- 26
 
-    constructor()
-    {
+    constructor() {
         this.lcd = new Lcd({rs: 12, e: 16, data: [6, 13, 19, 26], cols: 20, rows: 2});
 
         // Here is a test function for the lcd.. It displays the time
-        this.lcd.on('ready', function () {
-            setInterval(function () {
+        this.lcd.on('ready', () => {
+            setInterval(() => {
                 this.lcd.setCursor(0, 0);
                 this.lcd.print(new Date().toISOString().substring(11, 19));
-            }.bind(this), 1000);
-        }.bind(this));
+            }, 1000);
+        });
 
 
         // If ctrl+c is hit, free resources and exit.
-        process.on('SIGINT', function () {
+        process.on('SIGINT', () => {
             this.lcd.close();
             process.exit();
-        }.bind(this));
+        });
     }
 }
 const run = new LCD();

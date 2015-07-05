@@ -23,26 +23,25 @@ export default class Users extends Store {
 
     addUser = (user) => {
 
-        let _this = this;
-        Mysql.query('SELECT * FROM users LIMIT 1;', function (err, res) {
+        Mysql.query('SELECT * FROM users LIMIT 1;', (err, res) => {
 
             if (res.length) {
                 Mysql.query("UPDATE users SET " +
                     "email='" + user.email + ", token='" + user.token + "' WHERE " +
                     "id = 1;",
-                    function (err) {
+                        err => {
                         if (err) throw err;
 
-                        _this.getCredentials()
+                        this.getCredentials()
                     })
             } else {
                 Mysql.query("INSERT INTO users " +
                     "(email, token) VALUES " +
                     "('" + user.email + "', '" + user.token + "');",
-                    function (err) {
+                        err => {
                         if (err) throw err;
 
-                        _this.getCredentials()
+                        this.getCredentials()
                     })
             }
         })
@@ -50,7 +49,7 @@ export default class Users extends Store {
 
     getCredentials() {
 
-        Mysql.query('SELECT * FROM users LIMIT 1;', function (err, res) {
+        Mysql.query('SELECT * FROM users LIMIT 1;', (err, res) => {
 
             if (res.length) {
                 this.setState({
@@ -60,7 +59,7 @@ export default class Users extends Store {
                     }
                 })
             }
-        }.bind(this))
+        })
     }
 
     getState() {

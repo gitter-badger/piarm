@@ -20,16 +20,13 @@ class Query extends Builder {
         cb = cb || function () {
             };
 
-        Connector.getConnection().query(statement, function (err, r, f) {
+        Connector.getConnection().query(statement, (err, r, f) => {
             if (err) {
-                if (err.errno == 1046) return process.nextTick(function () {
-
-                    this.query(statement, cb)
-                }.bind(this));
+                if (err.errno == 1046) return process.nextTick(() => this.query(statement, cb));
             }
 
             return cb(err, r, f);
-        }.bind(this))
+        })
     };
 }
 let run = new Query();

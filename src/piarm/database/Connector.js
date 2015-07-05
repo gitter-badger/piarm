@@ -16,8 +16,8 @@ class Connector {
             user: 'piarm',
             password: 'piarm'
         });
-        this.connection.connect(function (err) {
-             if (err) throw err;
+        this.connection.connect(err => {
+            if (err) throw err;
         });
     }
 

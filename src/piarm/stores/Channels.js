@@ -32,38 +32,37 @@ export default class Channels extends Store {
             "(name, channel, direction, edge) " +
             "VALUES " +
             "('" + info.name + "', " + info.channel + ", '" + info.direction + "', '" + info.edge + "');",
-            function (err) {
+                err => {
                 if (err) throw err;
 
                 this.getChannels()
-            }.bind(this))
+            })
     };
 
     removeChannel = (id) => {
 
-        Mysql.query("DELETE FROM channels WHERE id = " + id, function (err) {
+        Mysql.query("DELETE FROM channels WHERE id = " + id, err => {
             if (err) throw err;
 
             this.getChannels()
-        }.bind(this))
+        })
     };
 
     getChannels() {
         let channels = this.state.channels;
-        Mysql.query('SELECT * FROM channels', function (err, res) {
-            res.forEach(function (row) {
+        Mysql.query('SELECT * FROM channels', (err, res) => {
+            res.forEach(row => {
                 channels.push(row)
             });
 
             this.setState({
                 channels: channels
             })
-        }.bind(this))
+        })
     }
 
     getState() {
 
-        if (this.debug_enabled) console.dir(this.state);
         return this.state.channels;
     }
 }

@@ -21,22 +21,22 @@ export default class Builder {
         cb = cb || function () {
             };
 
-        Connector.getConnection().query('CREATE DATABASE ' + this.database, function (err) {
+        Connector.getConnection().query('CREATE DATABASE ' + this.database, err => {
             if (!err) {
                 this.build(cb);
             } else {
                 Connector.setDatabase(this.database);
                 cb()
             }
-        }.bind(this));
+        });
     };
 
     build(cb) {
 
         Connector.setDatabase(this.database);
-        Schema.forEach(function (table) {
+        Schema.forEach(table => {
             Connector.getConnection().query(table)
-        }.bind(this));
+        });
         cb()
     }
 
@@ -45,17 +45,17 @@ export default class Builder {
         cb = cb || function () {
             };
 
-        this.createDatabase(function () {
-            Connector.getConnection().query("DROP DATABASE " + this.database, function () {
+        this.createDatabase(() => {
+            Connector.getConnection().query("DROP DATABASE " + this.database, () => {
 
                 this.createDatabase(cb);
-            }.bind(this))
-        }.bind(this))
+            })
+        })
     };
 
     seed = () => {
 
-        this.reset(function () {
+        this.reset(() => {
 
             for (var i = 0; i < 2; i++) {
 
@@ -76,7 +76,7 @@ export default class Builder {
                 "INSERT INTO users " +
                 "(email, token) VALUES " +
                 "('dummy@gmail.com', '9427eff152d7ca883540b1e53274076c');",
-                function () {
+                () => {
                     console.log('seed complete')
                 })
         });

@@ -22,7 +22,7 @@ class GPIO {
     setup() {
 
         Gpio.destroy();
-        this.channels.forEach(function (map) {
+        this.channels.forEach(map => {
             Gpio.setup(map.channel, map.direction, map.edge)
         });
     }

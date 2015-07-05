@@ -25,28 +25,27 @@ export default class Alarm extends Store {
 
     update() {
 
-        Mysql.query("SELECT * FROM armed LIMIT 1;", function (err, res) {
+        Mysql.query("SELECT * FROM armed LIMIT 1;", (err, res) => {
             if (res.length) {
                 this.setState({
                     alarm: res[0].armed
                 })
             }
-        }.bind(this))
+        })
     }
 
     arm() {
 
-        let _this = this;
-        Mysql.query('SELECT * FROM armed LIMIT 1;', function (err, res) {
+        Mysql.query('SELECT * FROM armed LIMIT 1;', (err, res) => {
 
             if (res.length) {
                 Mysql.query("UPDATE armed SET " +
                     "armed='true' WHERE " +
                     "id = 1;",
-                    function (err) {
+                        err => {
                         if (err) throw err;
 
-                        _this.setState({
+                        this.setState({
                             alarm: true
                         })
                     })
@@ -54,10 +53,10 @@ export default class Alarm extends Store {
                 Mysql.query("INSERT INTO armed " +
                     "(armed) VALUES " +
                     "('true');",
-                    function (err) {
+                        err => {
                         if (err) throw err;
 
-                        _this.setState({
+                        this.setState({
                             alarm: true
                         })
                     })
@@ -71,13 +70,13 @@ export default class Alarm extends Store {
             Mysql.query("UPDATE armed SET " +
                 "armed='true' WHERE " +
                 "id = 1;",
-                function (err) {
+                    err => {
                     if (err) throw err;
 
                     this.setState({
                         alarm: true
                     })
-                }.bind(this))
+                })
         }
     }
 
