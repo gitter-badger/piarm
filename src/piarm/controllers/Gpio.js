@@ -22,6 +22,7 @@ class GPIO {
     setup() {
 
         Gpio.destroy();
+        //console.dir(this.channels);
         this.channels.forEach(function (map) {
             Gpio.setup(map.channel, map.direction, map.edge)
         });
@@ -34,7 +35,7 @@ class GPIO {
     }
 
     storeUpdated = () => {
-
+        //console.log("Gpio.storeUpdated()");
         this.channels = Flux.getStore('channels').getState();
         this.setup()
     }

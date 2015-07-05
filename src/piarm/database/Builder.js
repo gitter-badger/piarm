@@ -13,7 +13,12 @@ export default class Builder {
     constructor() {
 
         this.database = 'piarm';
-        this.createDatabase()
+        this.createDatabase();
+
+        //this.seed()
+        setTimeout(function(){
+            this.seed();
+        }.bind(this), 3000)
     }
 
     createDatabase = (cb) => {

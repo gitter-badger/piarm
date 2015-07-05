@@ -16,6 +16,8 @@ class Connector {
             user: 'piarm',
             password: 'piarm'
         });
+
+        // the problem here is that err is always null, even if the db does not exist..
         this.connection.connect(function (err) {
              if (err) throw err;
         });
