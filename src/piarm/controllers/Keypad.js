@@ -1,19 +1,23 @@
-var keypress = require('keypress');
+import keypress from 'keypress'
 
-// make `process.stdin` begin emitting "keypress" events
-keypress(process.stdin);
+class Keypad {
+    constructor(){
+        keypress(process.stdin);
+        // well done Julien
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
 
-// listen for the "keypress" event
-process.stdin.on('keypress', function (ch, key) {
-    console.log('got "keypress"', key, ch);
-    if (typeof key !== "undefined") {
-        if (key.ctrl && key.name == 'c') {
-            process.stdin.pause();
-        }
+        process.stdin.on('keypress', function (ch, key) {
+            console.log('got "keypress"', key, ch);
+            if (typeof key !== "undefined") {
+                if (key.ctrl && key.name == 'c') {
+                    process.stdin.pause();
+                    console.log("Bye");
+                    process.exit(0);
+                }
+            }
+        }.bind(this));
     }
-});
-
-process.stdin.resume();
-
-// well done Julien
-process.stdin.setRawMode(true);
+}
+const run = new Keypad();
+export default run;
