@@ -6,27 +6,29 @@
 
 import io from 'socket.io-client'
 import Flux from '../flux'
-//import Mysql from '../database/Query'
 
 class Socket {
 
     constructor() {
 
         this.state = {
-            user: {},
-            channels: null,
-            alarm: {
-                armed: false,
-                last_updated: null
-            },
+            user: null,
             socket: null,
             authorized: false
         };
 
-        Flux.getStore('users').on('change', this._storesUpdated);
-        Flux.getStore('channels').on('change', this._storesUpdated);
-        Flux.getStore('alarm').on('change', this._storesUpdated);
-        this._storesUpdated();
+        this.system = {
+            channels: null,
+            alarm: null,
+            rules: null
+        };
+
+        Flux.getStore('users').on('change', this.updateUser);
+        Flux.getActions('users').getCredentials();
+
+        Flux.getStore('channels').on('change', this.pushState);
+        //Flux.getStore('rules').on('change', this.pushState);
+        Flux.getStore('alarm').on('change', this.pushState);
     }
 
     connect = () => {
@@ -41,7 +43,7 @@ class Socket {
         this.state.socket.on('reconnect', this.handleConnect);
 
         this.state.socket.on('auth', this.handleAuth);
-        this.state.socket.on('command', this.handleCommand)
+        this.state.socket.on('state', this.handleNewState)
     }
 
     handleConnect = () => {
@@ -49,15 +51,15 @@ class Socket {
         this.state.socket.emit('auth', this.state.user);
     };
 
-    handleCommand(message) {
+    handleNewState(state) {
 
-        console.log(message);
+        // check state times, differences and update accordingly
     }
 
     handleAuth = (err, status) => {
 
         if (err) {
-            console.log(err)
+            // handle error
         } else if (status == 202) {
             this.state.authorized = true;
             this.pushState()
@@ -66,20 +68,21 @@ class Socket {
 
     pushState = () => {
 
-        if (this.state.channels && this.state.authorized) {
-            this.state.socket.emit('state', {
-                    channels: this.state.channels,
-                    rules: [],
-                    armed: this.state.armed
-                })
+        if (this.state.authorized) {
+
+            this.system.channels = Flux.getStore('channels').getState();
+            this.system.alarm = Flux.getStore('alarm').getState();
+            //this.system.rules = Flux.getStore('rules').getState();
+
+            if (this.system.channels && this.system.alarm != null/* && this.system.rules*/) {
+                this.state.socket.emit('state', this.system)
+            }
         }
     };
 
-    _storesUpdated = () => {
+    updateUser = () => {
 
         this.state.user = Flux.getStore('users').getState();
-        this.state.channels = Flux.getStore('channels').getState();
-        this.state.alarm = Flux.getStore('alarm').getState();
         this.connect()
     };
 }
