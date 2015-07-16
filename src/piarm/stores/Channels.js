@@ -16,6 +16,7 @@ export default class Channels extends Store {
 
         this.register(flux.getActions('channels').addChannel, this.addChannel);
         this.register(flux.getActions('channels').removeChannel, this.removeChannel);
+        this.register(flux.getActions('channels').destroy, this.destroy);
 
         this.state = {
             channels: []
@@ -28,9 +29,9 @@ export default class Channels extends Store {
 
         Mysql.query(
             "INSERT INTO channels " +
-            "(name, channel, direction, edge, last_edited) " +
+            "(name, channel, direction, edge) " +
             "VALUES " +
-            "('" + info.name + "', " + info.channel + ", '" + info.direction + "', '" + info.edge + "', " + Date + ");",
+            "('" + info.name + "', " + info.channel + ", '" + info.direction + "', '" + info.edge + "');",
                 err => {
                 if (err) throw err;
 
@@ -58,6 +59,11 @@ export default class Channels extends Store {
                 channels: channels
             })
         })
+    }
+
+    destroy() {
+
+        Mysql.query("DELETE * FROM channels")
     }
 
     getState() {

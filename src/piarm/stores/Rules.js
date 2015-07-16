@@ -18,32 +18,41 @@ class Rules extends Store {
         this.register(flux.getActions('rules').addRule, this.addRule);
         this.register(flux.getActions('rules').updateRule, this.updateRule);
         this.register(flux.getActions('rules').updateStore, this.updateStore);
+        this.register(flux.getActions('rules').destroy, this.destroy);
 
         this.state = {
-            rules: {}
+            rules: []
         };
+
+        this.updateStore()
     }
 
-    addRule(rule) {
+    addRule = (rule) => {
 
         Mysql.query("INSERT INTO rules (" +
-        "active, time_start, time_end, date_start, date_end, days, last_edited) VALUES (" +
+        "name, active, time_start, time_end, date_start, date_end, days, last_edited) VALUES ('" +
+        rule.name + "', " +
         rule.active + ", " +
         rule.time_start + ", " +
         rule.time_end + ", " +
         rule.date_start + ", " +
         rule.date_end + ", " +
-        rule.days + ", " +
-        Date + ");");
+        rule.days + ");", err => this.createStatements(rule.name, rule.statements));
+    };
 
-        rule.statements.forEach(statement => {
-            Mysql.query("INSERT INTO statements (" +
-            "rule_id, position, type, code, last_edited) VALUES (" +
-            statement.rule_id + ", " +
-            statement.position + ", " +
-            statement.type + ", " +
-            statement.code + ", " +
-            Date + ");")
+    createStatements = (ruleName, statements) => {
+
+        Mysql.query("SELECT * FROM rules WHERE name = " + ruleName, (err, res) => {
+            statements.forEach(statement => {
+                Mysql.query("INSERT INTO statements (" +
+                "rule_id, position, type, code, last_edited) VALUES (" +
+                statement.res[0].id + ", " +
+                statement.position + ", " +
+                statement.type + ", " +
+                statement.code + ");")
+            });
+
+            this.updateStore()
         })
     }
 
@@ -55,8 +64,7 @@ class Rules extends Store {
         "time_end=" + rule.time_end + ", " +
         "date_start=" + rule.date_start + ", " +
         "date_end=" + rule.date_end + ", " +
-        "days=" + rule.days + ", " +
-        "last_edited=" + Date + " " +
+        "days=" + rule.days + " " +
         "WHERE id = " + rule.id + ";");
 
         rule.statements.forEach(statement => {
@@ -64,8 +72,7 @@ class Rules extends Store {
                 "rule_id=" + statement.rule_id + ", " +
                 "position=" + statement.position + ", " +
                 "type=" + statement.type + ", " +
-                "code=" + statement.code + ", " +
-                "last_edited= " + Date + " " +
+                "code=" + statement.code + " " +
                 "WHERE id = " + statement.id + ";"
             )
         })
@@ -73,24 +80,34 @@ class Rules extends Store {
 
     updateStore() {
 
-        let rules = [];
-        Mysql.query("SELECT * FROM rules", (err, res) => {
+        let rs = [];
+        Mysql.query("SELECT * FROM rules", (err, rules) => {
             if (err) throw err;
+            Mysql.query("SELECT * FROM statements", (err, statements) => {
+                if (err) throw err;
 
-            res.forEach(rule => {
-                Mysql.query("SELECT * FROM statements WHERE rule_id = " + rule.id, (err, statements) => {
-                    if (err) throw err;
+                rules.forEach(rule => {
+                    rule.statements = [];
+                    statements.forEach(statement => {
+                        if (rule.id == statement.rule_id) {
 
-                    rule.statements = statements;
+                            rule.statements.push(statement);
+                            rs.push(rule);
+                        }
+                    })
+                });
 
-                    rules.push(rule)
-                })
+                this.setState({
+                    rules: rs
+                });
             });
-
-            this.setState({
-                rules: rules
-            })
         })
+    }
+
+    destroy() {
+
+        Mysql.query("DELETE * FROM rules");
+        Mysql.query("DELETE * FROM statements");
     }
 
     getState() {

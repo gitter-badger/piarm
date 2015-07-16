@@ -13,8 +13,8 @@ class Connector {
 
         this.connection = Mysql.createConnection({
             host: 'localhost',
-            user: 'piarm',
-            password: 'piarm'
+            user: 'root',
+            password: 'autoloader'
         });
         this.connection.connect(err => {
             if (err) throw err;

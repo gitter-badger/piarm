@@ -6,14 +6,14 @@
 
 import { Actions } from 'flummox'
 
-export default class Users extends Actions {
+export default class Token extends Actions {
 
-    addUser(user) {
+    addToken(token) {
 
-        return user;
+        return token;
     }
 
-    getCredentials() {
+    getToken() {
 
         return true;
     }

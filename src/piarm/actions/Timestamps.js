@@ -1,26 +1,24 @@
 /*
  |--------------------------------------------------------------------------
- | Interact with the Armed store
+ | Interact with the Timestamps store
  |--------------------------------------------------------------------------
-**/
+ **/
 
 import { Actions } from 'flummox'
 
 export default
-class Armed extends Actions {
+class Timestamps extends Actions {
 
     update() {
 
         return true;
     }
 
-    arm() {
+    set(timestamps, cb) {
 
-        return true;
-    }
-
-    disarm() {
-
-        return true;
+        return {
+            timestamps: timestamps,
+            cb: cb
+        };
     }
 }

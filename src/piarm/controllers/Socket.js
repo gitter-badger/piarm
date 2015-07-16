@@ -12,9 +12,10 @@ class Socket {
     constructor() {
 
         this.state = {
-            user: null,
+            token: null,
             socket: null,
-            authorized: false
+            authorized: false,
+            push: true
         };
 
         this.system = {
@@ -23,12 +24,15 @@ class Socket {
             rules: null
         };
 
-        Flux.getStore('users').on('change', this.updateUser);
-        Flux.getActions('users').getCredentials();
+        this.timestamps = null;
+
+        Flux.getStore('token').on('change', this.updateToken);
+        Flux.getActions('token').getToken();
 
         Flux.getStore('channels').on('change', this.pushState);
-        //Flux.getStore('rules').on('change', this.pushState);
+        Flux.getStore('rules').on('change', this.pushState);
         Flux.getStore('alarm').on('change', this.pushState);
+        Flux.getStore('timestamps').on('change', this.pushState);
     }
 
     connect = () => {
@@ -43,47 +47,76 @@ class Socket {
         this.state.socket.on('reconnect', this.handleConnect);
 
         this.state.socket.on('auth', this.handleAuth);
+        this.state.socket.on('err', this.handleError);
+
         this.state.socket.on('state', this.handleNewState)
     }
 
     handleConnect = () => {
 
-        this.state.socket.emit('auth', this.state.user);
+        this.state.socket.emit('auth', this.state.token);
     };
 
-    handleNewState(state) {
+    handleNewState = (state) => {
 
-        // check state times, differences and update accordingly
-    }
+        this.state.push = false;
+        if (state.timestamps.channels_state > this.timestamps.channels_state) {
+            Flux.getActions('channels').destroy();
+            state.channels.forEach(channel => {
+                Flux.getActions('channels').addChannel(channel)
+            })
+        }
 
-    handleAuth = (err, status) => {
+        if (state.timestamps.rules_state > this.timestamps.rules_state) {
+            Flux.getActions('rules').destroy();
+            state.rules.forEach(rule => {
+                Flux.getActions('rules').addRule(rule);
+            })
+        }
 
-        if (err) {
-            // handle error
-        } else if (status == 202) {
+        if (state.timestamps.alarm_state > this.timestamps.alarm_state) {
+            if (state.alarm.armed) {
+                Flux.getActions('alarm').arm()
+            } else {
+                Flux.getActions('alarm').disarm()
+            }
+        }
+
+        Flux.getActions('timestamps').set(state.timestamps, () => this.state.push = true);
+    };
+
+    handleAuth = (status) => {
+
+        if (status == 202) {
             this.state.authorized = true;
             this.pushState()
         }
     };
 
+    handleError(err) {
+        console.log(err);
+    }
+
     pushState = () => {
 
-        if (this.state.authorized) {
+        if (this.state.authorized && this.state.push) {
 
             this.system.channels = Flux.getStore('channels').getState();
             this.system.alarm = Flux.getStore('alarm').getState();
-            //this.system.rules = Flux.getStore('rules').getState();
+            this.system.rules = Flux.getStore('rules').getState();
+            this.timestamps = Flux.getStore('timestamps').getState();
 
-            if (this.system.channels && this.system.alarm != null/* && this.system.rules*/) {
-                this.state.socket.emit('state', this.system)
+            if (this.system.channels && this.system.alarm != null && this.system.rules && this.timestamps) {
+                this.timestamps.token = this.state.token.token;
+                this.state.socket.emit('state', this.system, this.timestamps)
             }
         }
     };
 
-    updateUser = () => {
+    updateToken = () => {
 
-        this.state.user = Flux.getStore('users').getState();
-        this.connect()
+        this.state.token = Flux.getStore('token').getState();
+        this.connect();
     };
 }
 const run = new Socket();

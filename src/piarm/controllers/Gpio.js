@@ -34,7 +34,6 @@ class GPIO {
     }
 
     storeUpdated = () => {
-        //console.log("Gpio.storeUpdated()");
         this.channels = Flux.getStore('channels').getState();
         this.setup()
     }

@@ -13,12 +13,11 @@ let schema = [
     "channel VARCHAR(2) NOT NULL, " +
     "direction VARCHAR(3) NOT NULL, " +
     "edge VARCHAR(7) NOT NULL, " +
-    "last_edited DATETIME NOT NULL, " +
     "PRIMARY KEY (id)" +
     ");",
 
     // Users table
-    "CREATE TABLE users" +
+    "CREATE TABLE token" +
     "(" +
     "id INT NOT NULL AUTO_INCREMENT, " +
     "email VARCHAR(50) NOT NULL, " +
@@ -31,7 +30,6 @@ let schema = [
     "(" +
     "id INT NOT NULL AUTO_INCREMENT, " +
     "armed BOOLEAN NOT NULL, " +
-    "last_edited DATETIME NOT NULL, " +
     "PRIMARY KEY (id)" +
     ");",
 
@@ -45,7 +43,6 @@ let schema = [
     "date_start DATE, " +
     "date_end DATE, " +
     "days INT UNSIGNED, " +
-    "last_edited DATETIME NOT NULL, " +
     "PRIMARY KEY (id)" +
     ");",
 
@@ -57,7 +54,16 @@ let schema = [
     "position INT UNSIGNED NOT NULL, " +
     "type INT(1) UNSIGNED NOT NULL, " +
     "code INT UNSIGNED NOT NULL, " +
-    "last_edited DATETIME NOT NULL, " +
+    "PRIMARY KEY (id)" +
+    ");",
+
+    // Timestamps table
+    "CREATE TABLE timestamps" +
+    "(" +
+    "id INT NOT NULL AUTO_INCREMENT, " +
+    "channels_state VARCHAR(19), " +
+    "rules_state VARCHAR(19), " +
+    "alarm_state VARCHAR(19), " +
     "PRIMARY KEY (id)" +
     ");"
 ];

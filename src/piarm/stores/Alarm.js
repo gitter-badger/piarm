@@ -26,12 +26,11 @@ export default class Alarm extends Store {
 
     updateStore() {
 
-        Mysql.query("SELECT * FROM armed LIMIT 1;", (err, res) => {
+        Mysql.query("SELECT * FROM alarm LIMIT 1;", (err, res) => {
             if (res.length) {
                 this.setState({
                     alarm: {
-                        armed: res[0].armed,
-                        last_edited: res[0].last_edited
+                        armed: res[0].armed
                     }
                 })
             }
@@ -40,34 +39,31 @@ export default class Alarm extends Store {
 
     arm() {
 
-        Mysql.query('SELECT * FROM armed LIMIT 1;', (err, res) => {
+        Mysql.query('SELECT * FROM alarm LIMIT 1;', (err, res) => {
 
             if (res.length) {
-                Mysql.query("UPDATE armed SET " +
-                    "armed='true'" + ", " +
-                    "last_edited=" + Date + " WHERE " +
+                Mysql.query("UPDATE alarm SET " +
+                    "armed=true" + " WHERE " +
                     "id = 1;",
                         err => {
                         if (err) throw err;
 
                         this.setState({
                             alarm: {
-                                armed: true,
-                                last_edited: Date
+                                armed: true
                             }
                         })
                     })
             } else {
-                Mysql.query("INSERT INTO armed " +
-                    "(armed, last_edited) VALUES " +
-                    "('true', " + Date + ");",
+                Mysql.query("INSERT INTO alarm " +
+                    "(armed) VALUES " +
+                    "(true);",
                         err => {
                         if (err) throw err;
 
                         this.setState({
                             alarm: {
-                                armed: true,
-                                last_edited: Date
+                                armed: true
                             }
                         })
                     })
@@ -78,17 +74,15 @@ export default class Alarm extends Store {
     disarm() {
 
         if (this.state.alarm.armed) {
-            Mysql.query("UPDATE armed SET " +
-                "armed='false'" + ", " +
-                "last_edited=" + Date + " WHERE " +
+            Mysql.query("UPDATE alarm SET " +
+                "armed=false WHERE " +
                 "id = 1;",
                     err => {
                     if (err) throw err;
 
                     this.setState({
                         alarm: {
-                            armed: false,
-                            last_edited: Date
+                            armed: false
                         }
                     })
                 })

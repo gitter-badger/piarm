@@ -22,4 +22,9 @@ export default class Channels extends Actions {
 
         return id;
     }
+
+    destroy() {
+
+        return true;
+    }
 }

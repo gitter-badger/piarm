@@ -36,7 +36,7 @@ export default class Builder {
 
         Connector.setDatabase(this.database);
         Schema.forEach(table =>
-            Connector.getConnection().query(table)
+                Connector.getConnection().query(table)
         );
         cb()
     }
@@ -48,7 +48,7 @@ export default class Builder {
 
         this.createDatabase(() => {
             Connector.getConnection().query("DROP DATABASE " + this.database, () =>
-                this.createDatabase(cb)
+                    this.createDatabase(cb)
             )
         })
     };
@@ -67,16 +67,40 @@ export default class Builder {
                 }
                 Connector.getConnection().query(
                     "INSERT INTO channels " +
-                    "(name, channel, direction, edge, last_edited) VALUES " +
-                    "('seed', " + c + ", 'in', 'both', '" + Date +"');"
-                )
+                    "(name, channel, direction, edge) VALUES " +
+                    "('seed', " + c + ", 'in', 'both');",
+                    () => console.log('seeded channels'))
             }
 
             Connector.getConnection().query(
-                "INSERT INTO users " +
+                "INSERT INTO rules " +
+                "(active, time_start, time_end, date_start, date_end, days) VALUES " +
+                "(true, null, null, null, null, 1111111);",
+                () => console.log('seeded rules'));
+
+            Connector.getConnection().query(
+                "INSERT INTO statements " +
+                "(rule_id, position, type, code) VALUES " +
+                "(1, 0, 1, 0);",
+                () => console.log('seeded statements'));
+
+            Connector.getConnection().query(
+                "INSERT INTO alarm " +
+                "(armed) VALUES " +
+                "(true);",
+                () => console.log('seeded alarm'));
+
+            Connector.getConnection().query(
+                "INSERT INTO token " +
                 "(email, token) VALUES " +
-                "('dummy@gmail.com', '9427eff152d7ca883540b1e53274076c');",
-                () => console.log('seed complete'))
+                "('dummy@gmail.com', '$2y$10$T1O3pYlaMs.wX64NR78BOuGPCe.W4.dc4vbZh/g8vzigRhA.rtP.O');",
+                () => console.log('seeded token'));
+
+            Connector.getConnection().query(
+                "INSERT INTO timestamps " +
+                "(channels_state, rules_state, alarm_state) VALUES " +
+                "('" + Date + "', '" + Date + "', '" + Date + "');",
+                () => console.log('seeded timestamps'))
         });
     }
 }

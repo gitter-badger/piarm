@@ -23,4 +23,9 @@ class Rules extends Actions {
 
         return true;
     }
+
+    destroy() {
+
+        return true;
+    }
 }

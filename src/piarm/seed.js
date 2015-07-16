@@ -1,9 +1,6 @@
 /*
  |--------------------------------------------------------------------------
- | Run file
+ | Call the seed method. For development
  |--------------------------------------------------------------------------
- **/
-
-//import Gpio from './controllers/Gpio'
-import Socket from './controllers/Socket'
-//import LCD from './controllers/LCD'
+**/
+require('./database/Query.js').seed();
