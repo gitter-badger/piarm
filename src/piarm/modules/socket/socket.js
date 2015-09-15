@@ -35,10 +35,10 @@ class Socket {
         Flux.getStore('timestamps').on('change', this.pushState);
     }
 
-    connect = () => {
+    connect() {
 
         this.state.socket = io('http://192.168.0.144:3000');
-        this.listen();
+        this.listen()
     };
 
     listen() {
@@ -54,6 +54,7 @@ class Socket {
 
     handleConnect = () => {
 
+        console.log(this.state.token);
         this.state.socket.emit('auth', this.state.token);
     };
 

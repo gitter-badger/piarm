@@ -93,7 +93,7 @@ export default class Builder {
             Connector.getConnection().query(
                 "INSERT INTO token " +
                 "(email, token) VALUES " +
-                "('dummy@gmail.com', '$2y$10$T1O3pYlaMs.wX64NR78BOuGPCe.W4.dc4vbZh/g8vzigRhA.rtP.O');",
+                "('dummy@gmail.com', '$2y$10$99ci5fyGEIipPdqoiG6s1ejLsERSN9fdeDjoNlZyVi723LOkML9GG');",
                 () => console.log('seeded token'));
 
             Connector.getConnection().query(

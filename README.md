@@ -1,1 +1,1 @@
-Smart alarm system
+Client side software
